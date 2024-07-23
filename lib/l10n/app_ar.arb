@@ -1,0 +1,21 @@
+{
+  "language": "اللغة",
+  "english": "انجليزية",
+  "arabic": "عربي",
+  "theme": "الاضاءه",
+  "light": "مضئ",
+  "dark": "مظلم",
+  "to_do_list": "المهام",
+  "settings": "الاعدادات",
+  "add_new_task": "اضافه مهامه",
+  "enter_title": "ادخل عنوان النص",
+  "enter_Description": "ادخل الوصف للمهامه",
+  "select_time": "اختر الوقت",
+  "add": "اضافه",
+  "change_title": "تعديل العنوان",
+  "change_Description": "تعديل النص",
+  "save_changes": "حفظ التغييرات",
+  "edit_task": "تعديل المهمه",
+  "please_enter_tilte": "برجاء ادخال عنوان النص",
+  "please_enter_description": "برجاء ادخال الوصف"
+}
