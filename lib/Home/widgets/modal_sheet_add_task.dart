@@ -22,110 +22,104 @@ class _ModalSheetAddTaskState extends State<ModalSheetAddTask> {
     double width = MediaQuery.of(context).size.width;
     var themeProvider = Provider.of<ThemeProvider>(context);
 
-    return InkWell(
-      onTap: () {},
-      child: Container(
-        padding: const EdgeInsets.all(10),
-        height: height / 1.5,
-        width: width,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          color: themeProvider.theme == ThemeMode.light
-              ? ColorApp.whiteColor
-              : ColorApp.itemsDarkColor,
-        ),
-        child: Form(
-          key: form,
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Text(
-                  AppLocalizations.of(context)!.add_new_task,
+    return Container(
+      padding: const EdgeInsets.all(10),
+      height: height / 1.5,
+      width: width,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        color: themeProvider.theme == ThemeMode.light
+            ? ColorApp.whiteColor
+            : ColorApp.itemsDarkColor,
+      ),
+      child: Form(
+        key: form,
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text(
+                AppLocalizations.of(context)!.add_new_task,
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(30.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    TextFormField(
+                      validator: (String? text) {
+                        if (text == null || text.isEmpty) {
+                          return AppLocalizations.of(context)!
+                              .please_enter_tilte;
+                        }
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                          errorStyle: const TextStyle(fontSize: 12),
+                          hintText: AppLocalizations.of(context)!.enter_title,
+                          hintStyle: Theme.of(context).textTheme.bodySmall),
+                    ),
+                    SizedBox(
+                      height: height / 30,
+                    ),
+                    TextFormField(
+                      validator: (String? text) {
+                        if (text == null || text.isEmpty) {
+                          return AppLocalizations.of(context)!
+                              .please_enter_description;
+                        }
+                        return null;
+                      },
+                      maxLines: 4,
+                      decoration: InputDecoration(
+                          errorStyle: const TextStyle(fontSize: 12),
+                          hintText:
+                              AppLocalizations.of(context)!.enter_Description,
+                          hintStyle: Theme.of(context).textTheme.bodySmall),
+                    ),
+                    SizedBox(
+                      height: height / 30,
+                    ),
+                    InkWell(
+                      onTap: () {
+                        openDateSheet();
+                      },
+                      child: Text(
+                        AppLocalizations.of(context)!.select_time,
+                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                              color: themeProvider.theme == ThemeMode.light
+                                  ? ColorApp.blackColor
+                                  : ColorApp.grayColor,
+                            ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: height / 200,
+                    ),
+                    Text(
+                      "${selectDate.day}/${selectDate.month}/${selectDate.year}",
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                  ],
+                ),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  if (form.currentState!.validate()) {}
+                },
+                child: Text(
+                  AppLocalizations.of(context)!.add,
                   textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.bodyMedium,
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyMedium!
+                      .copyWith(color: ColorApp.whiteColor),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(30.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      TextFormField(
-                        validator: (String? text) {
-                          if (text == null || text.isEmpty) {
-                            return AppLocalizations.of(context)!
-                                .please_enter_tilte;
-                          }
-                          return null;
-                        },
-                        decoration: InputDecoration(
-                            errorStyle: const TextStyle(fontSize: 12),
-                            hintText: AppLocalizations.of(context)!.enter_title,
-                            hintStyle: Theme.of(context).textTheme.bodySmall),
-                      ),
-                      SizedBox(
-                        height: height / 30,
-                      ),
-                      TextFormField(
-                        validator: (String? text) {
-                          if (text == null || text.isEmpty) {
-                            return AppLocalizations.of(context)!
-                                .please_enter_description;
-                          }
-                          return null;
-                        },
-                        maxLines: 4,
-                        decoration: InputDecoration(
-                            errorStyle: const TextStyle(fontSize: 12),
-                            hintText:
-                                AppLocalizations.of(context)!.enter_Description,
-                            hintStyle: Theme.of(context).textTheme.bodySmall),
-                      ),
-                      SizedBox(
-                        height: height / 30,
-                      ),
-                      InkWell(
-                        onTap: () {
-                          openDateSheet();
-                        },
-                        child: Text(
-                          AppLocalizations.of(context)!.select_time,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodySmall!
-                              .copyWith(
-                                color: themeProvider.theme == ThemeMode.light
-                                    ? ColorApp.blackColor
-                                    : ColorApp.grayColor,
-                              ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: height / 200,
-                      ),
-                      Text(
-                        "${selectDate.day}/${selectDate.month}/${selectDate.year}",
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.bodySmall,
-                      ),
-                    ],
-                  ),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    if (form.currentState!.validate()) {}
-                  },
-                  child: Text(
-                    AppLocalizations.of(context)!.add,
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyMedium!
-                        .copyWith(color: ColorApp.whiteColor),
-                  ),
-                )
-              ],
-            ),
+              )
+            ],
           ),
         ),
       ),

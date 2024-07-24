@@ -47,7 +47,7 @@ class _SettingsState extends State<Settings> {
             child: Container(
               margin: EdgeInsets.symmetric(
                   horizontal: width / 100, vertical: height / 200),
-              padding: EdgeInsets.all(15),
+              padding: const EdgeInsets.all(15),
               decoration: BoxDecoration(
                   color: themeProvider.theme == ThemeMode.light
                       ? ColorApp.whiteColor
@@ -90,7 +90,7 @@ class _SettingsState extends State<Settings> {
             child: Container(
               margin: EdgeInsets.symmetric(
                   horizontal: width / 100, vertical: height / 200),
-              padding: EdgeInsets.all(15),
+              padding: const EdgeInsets.all(15),
               decoration: BoxDecoration(
                   color: themeProvider.theme == ThemeMode.light
                       ? ColorApp.whiteColor
@@ -101,7 +101,9 @@ class _SettingsState extends State<Settings> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    AppLocalizations.of(context)!.dark,
+                    themeProvider.theme == ThemeMode.light
+                        ? AppLocalizations.of(context)!.light
+                        : AppLocalizations.of(context)!.dark,
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
                   Icon(
@@ -122,14 +124,14 @@ class _SettingsState extends State<Settings> {
   void showBottomModelLanguage() {
     showModalBottomSheet(
       context: context,
-      builder: (context) => ModalSheet(),
+      builder: (context) => const ModalSheet(),
     );
   }
 
   void showBottomModelTheme() {
     showModalBottomSheet(
       context: context,
-      builder: (context) => ModalSheetTheme(),
+      builder: (context) => const ModalSheetTheme(),
     );
   }
 }
