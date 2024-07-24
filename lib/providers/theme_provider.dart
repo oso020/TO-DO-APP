@@ -2,11 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ThemeProvider extends ChangeNotifier {
-  bool mode;
-  ThemeMode theme;
+  bool? mode;
+  ThemeMode? theme;
 
-  ThemeProvider({this.mode = true})
-      : theme = mode ? ThemeMode.dark : ThemeMode.light;
+  ThemeProvider({bool mode = true}) {
+    if (mode) {
+      theme = ThemeMode.dark;
+    } else {
+      theme = ThemeMode.light;
+    }
+  }
 
   void changeTheme(ThemeMode newTheme) {
     if (theme == newTheme) {
@@ -21,7 +26,7 @@ class ThemeProvider extends ChangeNotifier {
 
   void saveDataTheme() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool('theme', mode);
+    prefs.setBool('theme', mode ?? false);
     notifyListeners();
   }
 }

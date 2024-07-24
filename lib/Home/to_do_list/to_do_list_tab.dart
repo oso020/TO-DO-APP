@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:to_do_app/Home/to_do_list/task_item.dart';
-import 'package:to_do_app/color_app.dart';
 
+import '../../theme_and_color/color_app.dart';
 import '../widgets/EasyDateTimeLinePackage.dart';
 
 class ToDOListTap extends StatelessWidget {

@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:to_do_app/providers/theme_provider.dart';
 
-import '../../color_app.dart';
 import '../../providers/language_provider.dart';
+import '../../theme_and_color/color_app.dart';
 
 class EasyDateTimeLinePackage extends StatelessWidget {
   const EasyDateTimeLinePackage({super.key});

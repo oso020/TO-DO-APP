@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
-import 'package:to_do_app/color_app.dart';
 
+import '../../firebase_utils.dart';
+import '../../model/task_model.dart';
 import '../../providers/theme_provider.dart';
+import '../../theme_and_color/color_app.dart';
 
 class ModalSheetAddTask extends StatefulWidget {
   ModalSheetAddTask({super.key});
@@ -15,6 +17,8 @@ class ModalSheetAddTask extends StatefulWidget {
 class _ModalSheetAddTaskState extends State<ModalSheetAddTask> {
   final form = GlobalKey<FormState>();
   var selectDate = DateTime.now();
+  String title = "";
+  String description = "";
 
   @override
   Widget build(BuildContext context) {
@@ -56,6 +60,9 @@ class _ModalSheetAddTaskState extends State<ModalSheetAddTask> {
                         }
                         return null;
                       },
+                      onChanged: (text) {
+                        title = text;
+                      },
                       decoration: InputDecoration(
                           errorStyle: const TextStyle(fontSize: 12),
                           hintText: AppLocalizations.of(context)!.enter_title,
@@ -71,6 +78,9 @@ class _ModalSheetAddTaskState extends State<ModalSheetAddTask> {
                               .please_enter_description;
                         }
                         return null;
+                      },
+                      onChanged: (text) {
+                        description = text;
                       },
                       maxLines: 4,
                       decoration: InputDecoration(
@@ -108,7 +118,9 @@ class _ModalSheetAddTaskState extends State<ModalSheetAddTask> {
               ),
               ElevatedButton(
                 onPressed: () {
-                  if (form.currentState!.validate()) {}
+                  if (form.currentState!.validate()) {
+                    addTask();
+                  }
                 },
                 child: Text(
                   AppLocalizations.of(context)!.add,
@@ -124,6 +136,18 @@ class _ModalSheetAddTaskState extends State<ModalSheetAddTask> {
         ),
       ),
     );
+  }
+
+  Future<void> addTask() {
+    Task task = Task(
+      title: title,
+      description: description,
+      dateTime: selectDate,
+    );
+    return FirebaseUtils.addTaskToFireStore(task).timeout(Duration(seconds: 2),
+        onTimeout: () {
+      print("added Successfully");
+    });
   }
 
   void openDateSheet() async {

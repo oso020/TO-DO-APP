@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -7,13 +8,14 @@ import 'package:to_do_app/Home/home_screen.dart';
 import 'package:to_do_app/firebase_options.dart';
 import 'package:to_do_app/providers/language_provider.dart';
 import 'package:to_do_app/providers/theme_provider.dart';
-import 'package:to_do_app/theme_app.dart';
+import 'package:to_do_app/theme_and_color/theme_app.dart';
 
 import 'Home/to_do_list/change_detiles_task_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await FirebaseFirestore.instance.disableNetwork();
 
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   final String? savedLanguage = sharedPreferences.getString('appLanguage');

@@ -4,7 +4,7 @@ import 'package:to_do_app/Home/settings/settings_tab.dart';
 import 'package:to_do_app/Home/to_do_list/to_do_list_tab.dart';
 import 'package:to_do_app/Home/widgets/modal_sheet_add_task.dart';
 
-import '../color_app.dart';
+import '../theme_and_color/color_app.dart';
 
 class Home extends StatefulWidget {
   static const String routeName = "home";

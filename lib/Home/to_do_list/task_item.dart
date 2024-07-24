@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:to_do_app/color_app.dart';
 import 'package:to_do_app/providers/theme_provider.dart';
 
+import '../../theme_and_color/color_app.dart';
 import 'change_detiles_task_screen.dart';
 
 class TaskItem extends StatelessWidget {
