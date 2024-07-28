@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
+import '../../model/task_model.dart';
+import '../../providers/getTaskProvider.dart';
 import '../../providers/theme_provider.dart';
 import '../../theme_and_color/color_app.dart';
 
 class ChangeDetilesTaskScreen extends StatefulWidget {
   static const String routeName = "changeDetiles";
 
-  ChangeDetilesTaskScreen({super.key});
+  const ChangeDetilesTaskScreen({super.key});
 
   @override
   State<ChangeDetilesTaskScreen> createState() =>
@@ -17,14 +19,25 @@ class ChangeDetilesTaskScreen extends StatefulWidget {
 
 class _ChangeDetilesTaskScreenState extends State<ChangeDetilesTaskScreen> {
   final form = GlobalKey<FormState>();
-
   var selectDate = DateTime.now();
+  TextEditingController title = TextEditingController();
+  TextEditingController desc = TextEditingController();
+
+  late Task args;
+  late GetTaskProvider getTaskProvider;
 
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     var themeProvider = Provider.of<ThemeProvider>(context);
+    getTaskProvider = Provider.of<GetTaskProvider>(context);
+    args = ModalRoute.of(context)?.settings.arguments as Task;
+
+    if (title.text.isEmpty || desc.text.isEmpty) {
+      title.text = args.title;
+      desc.text = args.description;
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -79,6 +92,7 @@ class _ChangeDetilesTaskScreenState extends State<ChangeDetilesTaskScreen> {
                               }
                               return null;
                             },
+                            controller: title,
                             decoration: InputDecoration(
                                 errorStyle: const TextStyle(fontSize: 12),
                                 hintText:
@@ -97,6 +111,7 @@ class _ChangeDetilesTaskScreenState extends State<ChangeDetilesTaskScreen> {
                               }
                               return null;
                             },
+                            controller: desc,
                             maxLines: 4,
                             decoration: InputDecoration(
                                 errorStyle: const TextStyle(fontSize: 12),
@@ -108,23 +123,24 @@ class _ChangeDetilesTaskScreenState extends State<ChangeDetilesTaskScreen> {
                           SizedBox(
                             height: height / 30,
                           ),
-                          InkWell(
-                            onTap: () {
-                              openDateSheet();
-                            },
-                            child: Text(
-                              AppLocalizations.of(context)!.select_time,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall!
-                                  .copyWith(color: ColorApp.grayColor),
-                            ),
-                          ),
+                          // InkWell(
+                          //   onTap: (){
+                          //     openDateSheet();
+                          //   },
+                          //   child: Text(
+                          //     AppLocalizations.of(context)!.select_time,
+                          //
+                          //     style: Theme.of(context)
+                          //         .textTheme
+                          //         .bodySmall!
+                          //         .copyWith(color: ColorApp.grayColor),
+                          //   ),
+                          // ),
                           SizedBox(
                             height: height / 200,
                           ),
                           Text(
-                            "${selectDate.day}/${selectDate.month}/${selectDate.year}",
+                            "${args.dateTime.day}/${args.dateTime.month}/${args.dateTime.year}",
                             textAlign: TextAlign.center,
                             style: Theme.of(context).textTheme.bodySmall,
                           ),
@@ -133,7 +149,9 @@ class _ChangeDetilesTaskScreenState extends State<ChangeDetilesTaskScreen> {
                     ),
                     ElevatedButton(
                       onPressed: () {
-                        if (form.currentState!.validate()) {}
+                        if (form.currentState!.validate()) {
+                          editTask();
+                        }
                       },
                       child: Text(
                         AppLocalizations.of(context)!.save_changes,
@@ -157,13 +175,13 @@ class _ChangeDetilesTaskScreenState extends State<ChangeDetilesTaskScreen> {
   void openDateSheet() async {
     var chosenDate = await showDatePicker(
       context: context,
-      initialDate: DateTime.now(),
+      initialDate: args.dateTime,
       firstDate: DateTime.now(),
-      lastDate: DateTime.now().add(Duration(days: 365)),
+      lastDate: DateTime.now().add(const Duration(days: 365)),
       builder: (BuildContext context, Widget? child) {
         return Theme(
           data: ThemeData(
-            colorScheme: ColorScheme.light(
+            colorScheme: const ColorScheme.light(
               primary: ColorApp.primaryColor,
               onPrimary: Colors.white,
               onSurface: Colors.black,
@@ -178,5 +196,15 @@ class _ChangeDetilesTaskScreenState extends State<ChangeDetilesTaskScreen> {
 
     selectDate = chosenDate ?? selectDate;
     setState(() {});
+  }
+
+  editTask() {
+    getTaskProvider
+        .editTask(args.id, title.text, desc.text, args.dateTime)
+        .timeout(Duration(seconds: 1), onTimeout: () {
+      print("updated Successfully");
+      getTaskProvider.getTaskFromFireStore();
+      Navigator.pop(context);
+    });
   }
 }

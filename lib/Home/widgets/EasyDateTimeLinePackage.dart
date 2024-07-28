@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:to_do_app/providers/theme_provider.dart';
 
+import '../../providers/getTaskProvider.dart';
 import '../../providers/language_provider.dart';
 import '../../theme_and_color/color_app.dart';
 
@@ -13,12 +14,14 @@ class EasyDateTimeLinePackage extends StatelessWidget {
   Widget build(BuildContext context) {
     var languageProvider = Provider.of<LanguageProvider>(context);
     var themeProvider = Provider.of<ThemeProvider>(context);
+    var getTaskProvider = Provider.of<GetTaskProvider>(context);
 
     return EasyDateTimeLine(
       locale: languageProvider.locale,
-      initialDate: DateTime.now(),
+      initialDate: getTaskProvider.selectDate,
       onDateChange: (selectedDate) {
         // `selectedDate` is the new date selected.
+        getTaskProvider.changeSelectDate(selectedDate);
       },
       activeColor: ColorApp.whiteColor,
       headerProps: EasyHeaderProps(

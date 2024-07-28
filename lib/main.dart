@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:to_do_app/Home/home_screen.dart';
 import 'package:to_do_app/firebase_options.dart';
+import 'package:to_do_app/providers/getTaskProvider.dart';
 import 'package:to_do_app/providers/language_provider.dart';
 import 'package:to_do_app/providers/theme_provider.dart';
 import 'package:to_do_app/theme_and_color/theme_app.dart';
@@ -26,6 +27,9 @@ void main() async {
     ),
     ChangeNotifierProvider(
       create: (context) => ThemeProvider(mode: theme ?? false),
+    ),
+    ChangeNotifierProvider(
+      create: (context) => GetTaskProvider(),
     ),
   ], child: const MyApp()));
 }

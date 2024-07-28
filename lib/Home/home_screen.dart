@@ -68,7 +68,7 @@ class _HomeState extends State<Home> {
     );
   }
 
-  List<Widget> widgets = [const ToDOListTap(), const Settings()];
+  List<Widget> widgets = [ToDOListTap(), const Settings()];
 
   void showModalSheetAddTask() {
     showModalBottomSheet(

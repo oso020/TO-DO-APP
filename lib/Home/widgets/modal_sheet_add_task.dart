@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:to_do_app/providers/getTaskProvider.dart';
 
 import '../../firebase_utils.dart';
 import '../../model/task_model.dart';
@@ -19,12 +20,14 @@ class _ModalSheetAddTaskState extends State<ModalSheetAddTask> {
   var selectDate = DateTime.now();
   String title = "";
   String description = "";
+  late GetTaskProvider getTaskProvider;
 
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     var themeProvider = Provider.of<ThemeProvider>(context);
+    getTaskProvider = Provider.of<GetTaskProvider>(context);
 
     return Container(
       padding: const EdgeInsets.all(10),
@@ -147,6 +150,9 @@ class _ModalSheetAddTaskState extends State<ModalSheetAddTask> {
     return FirebaseUtils.addTaskToFireStore(task).timeout(Duration(seconds: 2),
         onTimeout: () {
       print("added Successfully");
+      getTaskProvider.getTaskFromFireStore();
+
+      Navigator.pop(context);
     });
   }
 
