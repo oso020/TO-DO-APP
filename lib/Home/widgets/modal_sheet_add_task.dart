@@ -66,10 +66,12 @@ class _ModalSheetAddTaskState extends State<ModalSheetAddTask> {
                       onChanged: (text) {
                         title = text;
                       },
+                      style: Theme.of(context).textTheme.bodySmall,
                       decoration: InputDecoration(
                           errorStyle: const TextStyle(fontSize: 12),
                           hintText: AppLocalizations.of(context)!.enter_title,
-                          hintStyle: Theme.of(context).textTheme.bodySmall),
+                        hintStyle: Theme.of(context).textTheme.bodySmall,
+                      ),
                     ),
                     SizedBox(
                       height: height / 30,
@@ -86,6 +88,7 @@ class _ModalSheetAddTaskState extends State<ModalSheetAddTask> {
                         description = text;
                       },
                       maxLines: 4,
+                      style: Theme.of(context).textTheme.bodySmall,
                       decoration: InputDecoration(
                           errorStyle: const TextStyle(fontSize: 12),
                           hintText:

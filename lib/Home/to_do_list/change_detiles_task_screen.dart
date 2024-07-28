@@ -20,12 +20,13 @@ class ChangeDetilesTaskScreen extends StatefulWidget {
 class _ChangeDetilesTaskScreenState extends State<ChangeDetilesTaskScreen> {
   final form = GlobalKey<FormState>();
   var selectDate = DateTime.now();
-  TextEditingController title = TextEditingController();
-  TextEditingController desc = TextEditingController();
+  String title = "";
+  String description = "";
 
   late Task args;
   late GetTaskProvider getTaskProvider;
 
+  @override
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -34,9 +35,9 @@ class _ChangeDetilesTaskScreenState extends State<ChangeDetilesTaskScreen> {
     getTaskProvider = Provider.of<GetTaskProvider>(context);
     args = ModalRoute.of(context)?.settings.arguments as Task;
 
-    if (title.text.isEmpty || desc.text.isEmpty) {
-      title.text = args.title;
-      desc.text = args.description;
+    if (title.isEmpty || description.isEmpty) {
+      title = args.title;
+      description = args.description;
     }
 
     return Scaffold(
@@ -92,7 +93,10 @@ class _ChangeDetilesTaskScreenState extends State<ChangeDetilesTaskScreen> {
                               }
                               return null;
                             },
-                            controller: title,
+                            onChanged: (text) {
+                              title = text;
+                            },
+                            style: Theme.of(context).textTheme.bodySmall,
                             decoration: InputDecoration(
                                 errorStyle: const TextStyle(fontSize: 12),
                                 hintText:
@@ -111,8 +115,11 @@ class _ChangeDetilesTaskScreenState extends State<ChangeDetilesTaskScreen> {
                               }
                               return null;
                             },
-                            controller: desc,
+                            onChanged: (text) {
+                              description = text;
+                            },
                             maxLines: 4,
+                            style: Theme.of(context).textTheme.bodySmall,
                             decoration: InputDecoration(
                                 errorStyle: const TextStyle(fontSize: 12),
                                 hintText: AppLocalizations.of(context)!
@@ -200,7 +207,7 @@ class _ChangeDetilesTaskScreenState extends State<ChangeDetilesTaskScreen> {
 
   editTask() {
     getTaskProvider
-        .editTask(args.id, title.text, desc.text, args.dateTime)
+        .editTask(args.id, title, description, args.dateTime)
         .timeout(Duration(seconds: 1), onTimeout: () {
       print("updated Successfully");
       getTaskProvider.getTaskFromFireStore();

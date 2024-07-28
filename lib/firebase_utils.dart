@@ -39,4 +39,9 @@ class FirebaseUtils {
       'isDone': isDone,
     });
   }
+
+  static Future<void> deleteFormFireStore(String id) {
+    var collection = FirebaseUtils.getTaskCollection();
+    return collection.doc(id).delete();
+  }
 }

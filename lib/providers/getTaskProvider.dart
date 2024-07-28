@@ -45,4 +45,8 @@ class GetTaskProvider extends ChangeNotifier {
   ) {
     return FirebaseUtils.editIsDone(id, isDone);
   }
+
+  Future<void> deleteFromFireStore(String id) {
+    return FirebaseUtils.deleteFormFireStore(id);
+  }
 }

@@ -44,7 +44,9 @@ class ThemeApp {
           fontWeight: FontWeight.bold,
           fontSize: 18),
       bodySmall: GoogleFonts.inter(
-          color: ColorApp.grayColor, fontWeight: FontWeight.w400, fontSize: 20),
+          color: ColorApp.blackColor,
+          fontWeight: FontWeight.w400,
+          fontSize: 20),
     ),
   );
 

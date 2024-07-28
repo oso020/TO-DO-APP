@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
 import 'package:to_do_app/providers/theme_provider.dart';
 
@@ -28,7 +29,37 @@ class _TaskItemState extends State<TaskItem> {
     width = MediaQuery.of(context).size.width;
     themeProvider = Provider.of<ThemeProvider>(context);
     getTaskProvider = Provider.of<GetTaskProvider>(context);
-    return widget.task.isDone == false ? notDoneWidget() : doneWidget();
+    return Padding(
+      padding:
+          EdgeInsets.symmetric(vertical: height / 50, horizontal: width / 25),
+      child: Slidable(
+        // The start action pane is the one at the left or the top side.
+        startActionPane: ActionPane(
+          // A motion is a widget used to control how the pane animates.
+          motion: const ScrollMotion(),
+
+          children: [
+            // A SlidableAction can have an icon and/or a label.
+            SlidableAction(
+              onPressed: (context) {
+                deleteTask();
+              },
+              backgroundColor: Color(0xFFFE4A49),
+              foregroundColor: Colors.white,
+              borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(20),
+                  topLeft: Radius.circular(20),
+                  topRight: Radius.circular(15),
+                  bottomRight: Radius.circular(15)),
+              icon: Icons.delete,
+              label: 'Delete',
+            ),
+          ],
+        ),
+
+        child: widget.task.isDone == false ? notDoneWidget() : doneWidget(),
+      ),
+    );
   }
 
   doneTask() {
@@ -41,33 +72,31 @@ class _TaskItemState extends State<TaskItem> {
   }
 
   Widget notDoneWidget() {
-    return InkWell(
-      onTap: () {
-        Navigator.pushNamed(context, ChangeDetilesTaskScreen.routeName,
-            arguments: widget.task);
-      },
-      child: Container(
-        margin:
-            EdgeInsets.symmetric(vertical: height / 40, horizontal: width / 20),
-        padding: const EdgeInsets.all(12),
-        decoration: BoxDecoration(
-            color: themeProvider.theme == ThemeMode.light
-                ? ColorApp.whiteColor
-                : ColorApp.itemsDarkColor,
-            borderRadius: BorderRadius.circular(22)),
-        child: Row(
-          children: [
-            Container(
-              height: height / 9,
-              width: 5,
-              decoration: BoxDecoration(
-                  color: ColorApp.primaryColor,
-                  borderRadius: BorderRadius.circular(22)),
-            ),
-            SizedBox(
-              width: width / 20,
-            ),
-            Column(
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+          color: themeProvider.theme == ThemeMode.light
+              ? ColorApp.whiteColor
+              : ColorApp.itemsDarkColor,
+          borderRadius: BorderRadius.circular(20)),
+      child: Row(
+        children: [
+          Container(
+            height: height / 9,
+            width: 5,
+            decoration: BoxDecoration(
+                color: ColorApp.primaryColor,
+                borderRadius: BorderRadius.circular(22)),
+          ),
+          SizedBox(
+            width: width / 20,
+          ),
+          InkWell(
+            onTap: () {
+              Navigator.pushNamed(context, ChangeDetilesTaskScreen.routeName,
+                  arguments: widget.task);
+            },
+            child: Column(
               children: [
                 Text(
                   widget.task.title,
@@ -82,43 +111,41 @@ class _TaskItemState extends State<TaskItem> {
                 ),
               ],
             ),
-            const Spacer(),
-            Container(
-              padding: EdgeInsets.symmetric(
-                  vertical: height / 300, horizontal: width / 24),
-              decoration: BoxDecoration(
-                  color: ColorApp.primaryColor,
-                  borderRadius: BorderRadius.circular(15)),
-              child: IconButton(
-                padding: EdgeInsets.zero,
-                onPressed: () {
-                  doneTask();
-                },
-                icon: Icon(
-                  Icons.check,
-                  size: 33,
-                ),
-                color: themeProvider.theme == ThemeMode.light
-                    ? ColorApp.whiteColor
-                    : ColorApp.itemsDarkColor,
+          ),
+          const Spacer(),
+          Container(
+            padding: EdgeInsets.symmetric(
+                vertical: height / 300, horizontal: width / 24),
+            decoration: BoxDecoration(
+                color: ColorApp.primaryColor,
+                borderRadius: BorderRadius.circular(15)),
+            child: IconButton(
+              padding: EdgeInsets.zero,
+              onPressed: () {
+                doneTask();
+              },
+              icon: Icon(
+                Icons.check,
+                size: 33,
               ),
+              color: themeProvider.theme == ThemeMode.light
+                  ? ColorApp.whiteColor
+                  : ColorApp.itemsDarkColor,
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 
   Widget doneWidget() {
     return Container(
-      margin:
-          EdgeInsets.symmetric(vertical: height / 40, horizontal: width / 20),
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
           color: themeProvider.theme == ThemeMode.light
               ? ColorApp.whiteColor
               : ColorApp.itemsDarkColor,
-          borderRadius: BorderRadius.circular(22)),
+          borderRadius: BorderRadius.circular(15)),
       child: Row(
         children: [
           Container(
@@ -161,5 +188,14 @@ class _TaskItemState extends State<TaskItem> {
         ],
       ),
     );
+  }
+
+  Future<void> deleteTask() {
+    return getTaskProvider
+        .deleteFromFireStore(widget.task.id)
+        .timeout(Duration(seconds: 1), onTimeout: () {
+      print("deleted success");
+      getTaskProvider.getTaskFromFireStore();
+    });
   }
 }
