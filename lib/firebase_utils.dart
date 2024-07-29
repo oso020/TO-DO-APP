@@ -30,6 +30,7 @@ class FirebaseUtils {
     return collection.doc(id).update({
       'title': task.title,
       'description': task.description,
+      'dateTime': datetime.millisecondsSinceEpoch,
     });
   }
 

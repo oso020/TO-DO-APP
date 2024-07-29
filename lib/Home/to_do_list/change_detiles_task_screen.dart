@@ -20,13 +20,20 @@ class ChangeDetilesTaskScreen extends StatefulWidget {
 class _ChangeDetilesTaskScreenState extends State<ChangeDetilesTaskScreen> {
   final form = GlobalKey<FormState>();
   var selectDate = DateTime.now();
-  String title = "";
-  String description = "";
+  TextEditingController title = TextEditingController();
+  TextEditingController description = TextEditingController();
 
   late Task args;
   late GetTaskProvider getTaskProvider;
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    title.dispose();
+    description.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -34,10 +41,9 @@ class _ChangeDetilesTaskScreenState extends State<ChangeDetilesTaskScreen> {
     var themeProvider = Provider.of<ThemeProvider>(context);
     getTaskProvider = Provider.of<GetTaskProvider>(context);
     args = ModalRoute.of(context)?.settings.arguments as Task;
-
-    if (title.isEmpty || description.isEmpty) {
-      title = args.title;
-      description = args.description;
+    if (title.text.isEmpty || description.text.isEmpty) {
+      title.text = args.title;
+      description.text = args.description;
     }
 
     return Scaffold(
@@ -93,9 +99,7 @@ class _ChangeDetilesTaskScreenState extends State<ChangeDetilesTaskScreen> {
                               }
                               return null;
                             },
-                            onChanged: (text) {
-                              title = text;
-                            },
+                            controller: title,
                             style: Theme.of(context).textTheme.bodySmall,
                             decoration: InputDecoration(
                                 errorStyle: const TextStyle(fontSize: 12),
@@ -115,9 +119,7 @@ class _ChangeDetilesTaskScreenState extends State<ChangeDetilesTaskScreen> {
                               }
                               return null;
                             },
-                            onChanged: (text) {
-                              description = text;
-                            },
+                            controller: description,
                             maxLines: 4,
                             style: Theme.of(context).textTheme.bodySmall,
                             decoration: InputDecoration(
@@ -146,10 +148,15 @@ class _ChangeDetilesTaskScreenState extends State<ChangeDetilesTaskScreen> {
                           SizedBox(
                             height: height / 200,
                           ),
-                          Text(
-                            "${args.dateTime.day}/${args.dateTime.month}/${args.dateTime.year}",
-                            textAlign: TextAlign.center,
-                            style: Theme.of(context).textTheme.bodySmall,
+                          InkWell(
+                            onTap: () {
+                              openDateSheet();
+                            },
+                            child: Text(
+                              "${args.dateTime.day}/${args.dateTime.month}/${args.dateTime.year}",
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context).textTheme.bodySmall,
+                            ),
                           ),
                         ],
                       ),
@@ -202,12 +209,13 @@ class _ChangeDetilesTaskScreenState extends State<ChangeDetilesTaskScreen> {
     );
 
     selectDate = chosenDate ?? selectDate;
+    args.dateTime = selectDate;
     setState(() {});
   }
 
   editTask() {
     getTaskProvider
-        .editTask(args.id, title, description, args.dateTime)
+        .editTask(args.id, title.text, description.text, selectDate)
         .timeout(Duration(seconds: 1), onTimeout: () {
       print("updated Successfully");
       getTaskProvider.getTaskFromFireStore();

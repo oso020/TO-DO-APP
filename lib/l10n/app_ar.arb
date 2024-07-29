@@ -17,5 +17,7 @@
   "save_changes": "حفظ التغييرات",
   "edit_task": "تعديل المهمه",
   "please_enter_tilte": "برجاء ادخال عنوان النص",
-  "please_enter_description": "برجاء ادخال الوصف"
+  "please_enter_description": "برجاء ادخال الوصف",
+  "delete": "حذف",
+  "done": "تمت بنجاح!"
 }

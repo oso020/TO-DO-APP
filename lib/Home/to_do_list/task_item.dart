@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
 import 'package:to_do_app/providers/theme_provider.dart';
@@ -44,15 +45,15 @@ class _TaskItemState extends State<TaskItem> {
               onPressed: (context) {
                 deleteTask();
               },
-              backgroundColor: Color(0xFFFE4A49),
+              backgroundColor: const Color(0xFFFE4A49),
               foregroundColor: Colors.white,
-              borderRadius: BorderRadius.only(
+              borderRadius: const BorderRadius.only(
                   bottomLeft: Radius.circular(20),
                   topLeft: Radius.circular(20),
                   topRight: Radius.circular(15),
                   bottomRight: Radius.circular(15)),
               icon: Icons.delete,
-              label: 'Delete',
+              label: AppLocalizations.of(context)!.delete,
             ),
           ],
         ),
@@ -64,7 +65,7 @@ class _TaskItemState extends State<TaskItem> {
 
   doneTask() {
     getTaskProvider.isDone = true;
-    getTaskProvider.doneTask(widget.task.id).timeout(Duration(seconds: 1),
+    getTaskProvider.doneTask(widget.task.id).timeout(const Duration(seconds: 1),
         onTimeout: () {
       print("done Task");
     });
@@ -82,7 +83,7 @@ class _TaskItemState extends State<TaskItem> {
       child: Row(
         children: [
           Container(
-            height: height / 9,
+            height: height / 7,
             width: 5,
             decoration: BoxDecoration(
                 color: ColorApp.primaryColor,
@@ -124,7 +125,7 @@ class _TaskItemState extends State<TaskItem> {
               onPressed: () {
                 doneTask();
               },
-              icon: Icon(
+              icon: const Icon(
                 Icons.check,
                 size: 33,
               ),
@@ -179,11 +180,11 @@ class _TaskItemState extends State<TaskItem> {
           ),
           const Spacer(),
           Text(
-            "Done!",
+            AppLocalizations.of(context)!.done,
             style: Theme.of(context)
                 .textTheme
                 .titleLarge!
-                .copyWith(color: ColorApp.greenColor, fontSize: 33),
+                .copyWith(color: ColorApp.greenColor, fontSize: 28),
           ),
         ],
       ),
@@ -193,7 +194,7 @@ class _TaskItemState extends State<TaskItem> {
   Future<void> deleteTask() {
     return getTaskProvider
         .deleteFromFireStore(widget.task.id)
-        .timeout(Duration(seconds: 1), onTimeout: () {
+        .timeout(const Duration(seconds: 1), onTimeout: () {
       print("deleted success");
       getTaskProvider.getTaskFromFireStore();
     });

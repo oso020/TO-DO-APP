@@ -5,9 +5,7 @@ class ThemeProvider extends ChangeNotifier {
   bool? mode;
   ThemeMode? theme;
 
-  ThemeProvider({
-    bool mode = true,
-  }) {
+  ThemeProvider({bool mode = true}) {
     if (mode) {
       theme = ThemeMode.dark;
     } else {
