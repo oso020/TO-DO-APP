@@ -35,8 +35,14 @@ class _ToDOListTapState extends State<ToDOListTap> {
           ],
         ),
         Expanded(
-            child: ListView.builder(
-          itemCount: getTaskProvider.tasks.length,
+            child: getTaskProvider.tasks.isEmpty
+                ? Center(
+                    child: Text(
+                    "Added Some Task",
+                    style: Theme.of(context).textTheme.displayLarge,
+                  ))
+                : ListView.builder(
+                    itemCount: getTaskProvider.tasks.length,
           itemBuilder: (context, index) => TaskItem(
             task: getTaskProvider.tasks[index],
           ),

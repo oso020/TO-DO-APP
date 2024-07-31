@@ -7,6 +7,7 @@ import 'package:to_do_app/providers/theme_provider.dart';
 import '../../model/task_model.dart';
 import '../../providers/getTaskProvider.dart';
 import '../../theme_and_color/color_app.dart';
+import '../../widgets_and_functions/dialog_model.dart';
 import 'change_detiles_task_screen.dart';
 
 class TaskItem extends StatefulWidget {
@@ -64,12 +65,19 @@ class _TaskItemState extends State<TaskItem> {
   }
 
   doneTask() {
+    DailogUtils.showLoading(context);
     getTaskProvider.isDone = true;
     getTaskProvider.doneTask(widget.task.id).timeout(const Duration(seconds: 1),
         onTimeout: () {
-      print("done Task");
+      getTaskProvider.getTaskFromFireStore();
+      DailogUtils.hideLoading(context);
+      DailogUtils.showMessage(
+        title: "Success",
+        content: "Finished Task Successfully",
+        context: context,
+        button1Name: "Ok",
+      );
     });
-    getTaskProvider.getTaskFromFireStore();
   }
 
   Widget notDoneWidget() {
@@ -192,11 +200,18 @@ class _TaskItemState extends State<TaskItem> {
   }
 
   Future<void> deleteTask() {
+    DailogUtils.showLoading(context);
     return getTaskProvider
         .deleteFromFireStore(widget.task.id)
         .timeout(const Duration(seconds: 1), onTimeout: () {
-      print("deleted success");
       getTaskProvider.getTaskFromFireStore();
+      DailogUtils.hideLoading(context);
+      DailogUtils.showMessage(
+        title: "Success",
+        content: "Deleted Successfully",
+        context: context,
+        button1Name: "Ok",
+      );
     });
   }
 }

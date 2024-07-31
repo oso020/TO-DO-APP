@@ -6,6 +6,7 @@ import '../../model/task_model.dart';
 import '../../providers/getTaskProvider.dart';
 import '../../providers/theme_provider.dart';
 import '../../theme_and_color/color_app.dart';
+import '../../widgets_and_functions/dialog_model.dart';
 
 class ChangeDetilesTaskScreen extends StatefulWidget {
   static const String routeName = "changeDetiles";
@@ -214,12 +215,20 @@ class _ChangeDetilesTaskScreenState extends State<ChangeDetilesTaskScreen> {
   }
 
   editTask() {
+    DailogUtils.showLoading(context);
     getTaskProvider
         .editTask(args.id, title.text, description.text, selectDate)
         .timeout(Duration(seconds: 1), onTimeout: () {
       print("updated Successfully");
-      getTaskProvider.getTaskFromFireStore();
       Navigator.pop(context);
+      getTaskProvider.getTaskFromFireStore();
+      DailogUtils.hideLoading(context);
+      DailogUtils.showMessage(
+        title: "Success",
+        content: "Updated Successfully",
+        context: context,
+        button1Name: "Ok",
+      );
     });
   }
 }

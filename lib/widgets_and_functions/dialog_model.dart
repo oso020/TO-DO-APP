@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class DailogUtils {
-  showLoading(BuildContext context) {
+  static showLoading(BuildContext context) {
     return showDialog(
       context: context,
       builder: (context) {
@@ -9,9 +9,12 @@ class DailogUtils {
           content: Row(
             children: [
               CircularProgressIndicator(),
-              Text(
-                "Loading...",
-                style: Theme.of(context).textTheme.bodyMedium,
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  "Loading...",
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
               )
             ],
           ),
@@ -20,11 +23,11 @@ class DailogUtils {
     );
   }
 
-  hideLoading(BuildContext context) {
+  static hideLoading(BuildContext context) {
     Navigator.pop(context);
   }
 
-  showMessage({
+  static showMessage({
     required BuildContext context,
     required String content,
     required String title,
@@ -62,11 +65,11 @@ class DailogUtils {
         return AlertDialog(
           content: Text(
             content,
-            style: Theme.of(context).textTheme.bodyMedium,
+            style: Theme.of(context).textTheme.bodySmall,
           ),
           title: Text(
             title,
-            style: Theme.of(context).textTheme.bodyMedium,
+            style: Theme.of(context).textTheme.bodySmall,
           ),
           actions: actions,
         );

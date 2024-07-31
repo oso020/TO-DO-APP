@@ -41,12 +41,11 @@ class GetTaskProvider extends ChangeNotifier {
   }
 
   Future<void> doneTask(
-    String id,
-  ) {
-    return FirebaseUtils.editIsDone(id, isDone);
+    String id,) async {
+    return await FirebaseUtils.editIsDone(id, isDone);
   }
 
-  Future<void> deleteFromFireStore(String id) {
-    return FirebaseUtils.deleteFormFireStore(id);
+  Future<void> deleteFromFireStore(String id) async {
+    return await FirebaseUtils.deleteFormFireStore(id);
   }
 }

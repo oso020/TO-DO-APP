@@ -11,38 +11,37 @@ class FirebaseUtils {
         );
   }
 
-  static Future<void> addTaskToFireStore(Task task) {
+  static Future<void> addTaskToFireStore(Task task) async {
     var taskCollection = getTaskCollection(); // collection
     DocumentReference<Task> taskDoc = taskCollection.doc(); // document
     task.id = taskDoc.id; //set model "id"
 
-    return taskDoc.set(task);
+    return await taskDoc.set(task);
   }
 
   static Future<void> editTask(
     String id,
     String title,
     String desc,
-    DateTime datetime,
-  ) {
+    DateTime datetime,) async {
     var collection = FirebaseUtils.getTaskCollection();
     Task task = Task(title: title, description: desc, dateTime: datetime);
-    return collection.doc(id).update({
+    return await collection.doc(id).update({
       'title': task.title,
       'description': task.description,
       'dateTime': datetime.millisecondsSinceEpoch,
     });
   }
 
-  static Future<void> editIsDone(String id, bool isDone) {
+  static Future<void> editIsDone(String id, bool isDone) async {
     var collection = FirebaseUtils.getTaskCollection();
-    return collection.doc(id).update({
+    return await collection.doc(id).update({
       'isDone': isDone,
     });
   }
 
-  static Future<void> deleteFormFireStore(String id) {
+  static Future<void> deleteFormFireStore(String id) async {
     var collection = FirebaseUtils.getTaskCollection();
-    return collection.doc(id).delete();
+    return await collection.doc(id).delete();
   }
 }

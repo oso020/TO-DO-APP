@@ -5,6 +5,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:to_do_app/Home/home_screen.dart';
+import 'package:to_do_app/Home/login/login_screen.dart';
+import 'package:to_do_app/Home/register/register_screen.dart';
 import 'package:to_do_app/firebase_options.dart';
 import 'package:to_do_app/providers/getTaskProvider.dart';
 import 'package:to_do_app/providers/language_provider.dart';
@@ -53,7 +55,9 @@ class MyApp extends StatelessWidget {
       routes: {
         Home.routeName: (context) => Home(),
         ChangeDetilesTaskScreen.routeName: (context) =>
-            ChangeDetilesTaskScreen()
+            ChangeDetilesTaskScreen(),
+        LoginScreen.routeName: (context) => LoginScreen(),
+        RegisterScreen.routeName: (context) => RegisterScreen(),
       },
     );
   }

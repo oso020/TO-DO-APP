@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:to_do_app/providers/getTaskProvider.dart';
+import 'package:to_do_app/widgets_and_functions/dialog_model.dart';
 
 import '../../firebase_utils.dart';
 import '../../model/task_model.dart';
@@ -150,12 +151,18 @@ class _ModalSheetAddTaskState extends State<ModalSheetAddTask> {
       description: description,
       dateTime: selectDate,
     );
+    DailogUtils.showLoading(context);
     return FirebaseUtils.addTaskToFireStore(task).timeout(Duration(seconds: 2),
         onTimeout: () {
-      print("added Successfully");
-      getTaskProvider.getTaskFromFireStore();
-
       Navigator.pop(context);
+      getTaskProvider.getTaskFromFireStore();
+      DailogUtils.hideLoading(context);
+      DailogUtils.showMessage(
+        title: "Success",
+        content: "Added Successfully",
+        context: context,
+        button1Name: "Ok",
+      );
     });
   }
 
