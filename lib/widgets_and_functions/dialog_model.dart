@@ -4,6 +4,7 @@ class DailogUtils {
   static showLoading(BuildContext context) {
     return showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (context) {
         return AlertDialog(
           content: Row(
@@ -38,6 +39,7 @@ class DailogUtils {
   }) {
     return showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (context) {
         List<Widget> actions = [];
         if (button1Name != null) {

@@ -19,5 +19,8 @@
   "please_enter_tilte": "برجاء ادخال عنوان النص",
   "please_enter_description": "برجاء ادخال الوصف",
   "delete": "حذف",
-  "done": "تمت بنجاح!"
+  "done": "تمت بنجاح!",
+  "create_account": "انشاء حساب ",
+  "login": "تسجيل دخول ",
+  "welcome_back": "مرحبا!"
 }
