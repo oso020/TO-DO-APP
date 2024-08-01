@@ -61,22 +61,23 @@ class _LoginScreenState extends State<LoginScreen> {
                 Textfieldcustom(
                   validator: (text) {
                     if (text == null || text.isEmpty) {
-                      return "Please enter your email";
+                      return AppLocalizations.of(context)!.please_enter_email;
                     }
                     return null;
                   },
                   controller: email,
-                  lableText: "email",
+                  lableText: AppLocalizations.of(context)!.email,
                 ),
                 Textfieldcustom(
                   validator: (text) {
                     if (text == null || text.isEmpty) {
-                      return "Please enter your password";
+                      return AppLocalizations.of(context)!
+                          .please_enter_password;
                     }
                     return null;
                   },
                   controller: password,
-                  lableText: "password",
+                  lableText: AppLocalizations.of(context)!.password,
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -113,14 +114,13 @@ class _LoginScreenState extends State<LoginScreen> {
     try {
       final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: email.text, password: password.text);
-      print('Success');
 
       DailogUtils.hideLoading(context);
       DailogUtils.showMessage(
           context: context,
-          title: "Success",
-          content: "Login Successfully",
-          button1Name: "Ok",
+          title: AppLocalizations.of(context)!.success,
+          content: AppLocalizations.of(context)!.login_successfully,
+          button1Name: AppLocalizations.of(context)!.ok,
           button1Function: () {
             Navigator.pushReplacementNamed(context, Home.routeName);
           });
@@ -130,25 +130,26 @@ class _LoginScreenState extends State<LoginScreen> {
         DailogUtils.hideLoading(context);
         DailogUtils.showMessage(
             context: context,
-            title: "Faild",
-            content: "Email or Password Wrong",
-            button1Name: "Ok");
+            title: AppLocalizations.of(context)!.faild,
+            content: AppLocalizations.of(context)!.email_or_password_wrong,
+            button1Name: AppLocalizations.of(context)!.ok);
       } else if (e.code == 'network-request-failed') {
         DailogUtils.hideLoading(context);
         DailogUtils.showMessage(
           context: context,
-          title: "Faild",
-          content: "network-request-failed",
-          button1Name: "Ok",
+          title: AppLocalizations.of(context)!.faild,
+          content: AppLocalizations.of(context)!.network_request_failed,
+          button1Name: AppLocalizations.of(context)!.ok,
         );
       }
     } catch (e) {
       DailogUtils.hideLoading(context);
       DailogUtils.showMessage(
           context: context,
-          title: "Faild",
-          content: e.toString(),
-          button1Name: "Ok");
+          title: AppLocalizations.of(context)!.faild,
+          content: AppLocalizations.of(context)!
+              .someting_went_wrong_pealse_try_again,
+          button1Name: AppLocalizations.of(context)!.ok);
     }
   }
 }

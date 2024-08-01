@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:to_do_app/Home/login/login_screen.dart';
 import 'package:to_do_app/widgets_and_functions/dialog_model.dart';
 
@@ -54,7 +55,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           appBar: AppBar(
             backgroundColor: Colors.transparent,
             title: Text(
-              "Create Account",
+              AppLocalizations.of(context)!.register,
               style: Theme.of(context).textTheme.titleMedium,
             ),
             centerTitle: true,
@@ -71,59 +72,64 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   Textfieldcustom(
                     validator: (text) {
                       if (text == null || text.isEmpty) {
-                        return "Please enter your username";
+                        return AppLocalizations.of(context)!
+                            .enter_your_user_name;
                       }
                       return null;
                     },
                     controller: userName,
-                    lableText: "username",
+                    lableText: AppLocalizations.of(context)!.user,
                   ),
                   Textfieldcustom(
                     validator: (text) {
                       if (text == null || text.isEmpty) {
-                        return "Please enter your email";
+                        return AppLocalizations.of(context)!.enter_your_email;
                       }
                       final bool emailValid = RegExp(
                               r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                           .hasMatch(text);
 
                       if (!emailValid) {
-                        return "Enter valid email";
+                        return AppLocalizations.of(context)!.enter_valid_email;
                       }
                       return null;
                     },
                     controller: email,
-                    lableText: "email",
+                    lableText: AppLocalizations.of(context)!.email,
                   ),
                   Textfieldcustom(
                     validator: (text) {
                       if (text == null || text.isEmpty) {
-                        return "Please enter your password";
+                        return AppLocalizations.of(context)!
+                            .please_enter_password;
                       }
 
                       final bool regex = RegExp(
                               r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$')
                           .hasMatch(text);
                       if (!regex) {
-                        return "Enter valid password";
+                        return AppLocalizations.of(context)!
+                            .enter_valid_password;
                       }
                       return null;
                     },
                     controller: password,
-                    lableText: "password",
+                    lableText: AppLocalizations.of(context)!.password,
                   ),
                   Textfieldcustom(
                     validator: (text) {
                       if (text == null || text.isEmpty) {
-                        return "Please enter your confirmPassword";
+                        return AppLocalizations.of(context)!
+                            .please_enter_confirm_password;
                       }
                       if (text != password.text) {
-                        return "Confirm password dont match with password";
+                        return AppLocalizations.of(context)!
+                            .password_dont_match;
                       }
                       return null;
                     },
                     controller: confiramPassword,
-                    lableText: "confirmpassword",
+                    lableText: AppLocalizations.of(context)!.confirm_password,
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -133,7 +139,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             registerFirebaseAuth();
                           }
                         },
-                        child: Text("regisiter")),
+                        child: Text(AppLocalizations.of(context)!.register)),
                   )
                 ],
               ),
@@ -155,9 +161,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
       DailogUtils.hideLoading(context);
       DailogUtils.showMessage(
           context: context,
-          title: "Success",
-          content: "Created Successfully",
-          button1Name: "Ok",
+          title: AppLocalizations.of(context)!.success,
+          content: AppLocalizations.of(context)!.created_successfully,
+          button1Name: AppLocalizations.of(context)!.ok,
           button1Function: () {
             Navigator.pushReplacementNamed(context, LoginScreen.routeName);
           });
@@ -166,35 +172,35 @@ class _RegisterScreenState extends State<RegisterScreen> {
         DailogUtils.hideLoading(context);
         DailogUtils.showMessage(
           context: context,
-          title: "Faild",
-          content: "Email or Password Wrong",
-          button1Name: "Ok",
+          title: AppLocalizations.of(context)!.faild,
+          content: AppLocalizations.of(context)!.email_or_password_wrong,
+          button1Name: AppLocalizations.of(context)!.ok,
         );
       } else if (e.code == 'email-already-in-use') {
         DailogUtils.hideLoading(context);
         DailogUtils.showMessage(
           context: context,
-          title: "Faild",
-          content: "email-already-in-use",
-          button1Name: "Ok",
+          title: AppLocalizations.of(context)!.faild,
+          content: AppLocalizations.of(context)!.email_already_in_use,
+          button1Name: AppLocalizations.of(context)!.ok,
         );
       } else if (e.code == 'network-request-failed') {
         DailogUtils.hideLoading(context);
         DailogUtils.showMessage(
           context: context,
-          title: "Faild",
-          content: "network-request-failed",
-          button1Name: "Ok",
+          title: AppLocalizations.of(context)!.faild,
+          content: AppLocalizations.of(context)!.network_request_failed,
+          button1Name: AppLocalizations.of(context)!.ok,
         );
       }
     } catch (e) {
       DailogUtils.hideLoading(context);
       DailogUtils.showMessage(
-        context: context,
-        title: "Faild",
-        content: "Someting Went Wrong Please try again",
-        button1Name: "Ok",
-      );
+          context: context,
+          title: AppLocalizations.of(context)!.faild,
+          content: AppLocalizations.of(context)!
+              .someting_went_wrong_pealse_try_again,
+          button1Name: AppLocalizations.of(context)!.ok);
     }
   }
 }
