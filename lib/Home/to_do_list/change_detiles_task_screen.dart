@@ -26,6 +26,7 @@ class _ChangeDetilesTaskScreenState extends State<ChangeDetilesTaskScreen> {
 
   late Task args;
   late GetTaskProvider getTaskProvider;
+  late ThemeProvider themeProvider;
 
   @override
   void dispose() {
@@ -39,7 +40,7 @@ class _ChangeDetilesTaskScreenState extends State<ChangeDetilesTaskScreen> {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-    var themeProvider = Provider.of<ThemeProvider>(context);
+    themeProvider = Provider.of<ThemeProvider>(context);
     getTaskProvider = Provider.of<GetTaskProvider>(context);
     args = ModalRoute.of(context)?.settings.arguments as Task;
     if (title.text.isEmpty || description.text.isEmpty) {
@@ -215,19 +216,26 @@ class _ChangeDetilesTaskScreenState extends State<ChangeDetilesTaskScreen> {
   }
 
   editTask() {
-    DailogUtils.showLoading(context);
+    DailogUtils.showLoading(
+      context,
+      themeProvider.theme == ThemeMode.light
+          ? ColorApp.whiteColor
+          : ColorApp.itemsDarkColor,
+    );
     getTaskProvider
         .editTask(args.id, title.text, description.text, selectDate)
         .timeout(Duration(seconds: 1), onTimeout: () {
-      print("updated Successfully");
       Navigator.pop(context);
       getTaskProvider.getTaskFromFireStore();
       DailogUtils.hideLoading(context);
       DailogUtils.showMessage(
-        title: "Success",
-        content: "Updated Successfully",
+        color: themeProvider.theme == ThemeMode.light
+            ? ColorApp.whiteColor
+            : ColorApp.itemsDarkColor,
+        title: AppLocalizations.of(context)!.success,
+        content: AppLocalizations.of(context)!.update_successfully,
         context: context,
-        button1Name: "Ok",
+        button1Name: AppLocalizations.of(context)!.ok,
       );
     });
   }

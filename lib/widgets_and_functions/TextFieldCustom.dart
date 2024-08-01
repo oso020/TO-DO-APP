@@ -18,6 +18,7 @@ class Textfieldcustom extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: TextFormField(
+        style: Theme.of(context).textTheme.bodySmall,
         validator: validator,
         controller: controller,
         decoration: InputDecoration(

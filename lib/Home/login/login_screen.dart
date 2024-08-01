@@ -1,7 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 import 'package:to_do_app/Home/register/register_screen.dart';
+import 'package:to_do_app/providers/theme_provider.dart';
+import 'package:to_do_app/theme_and_color/color_app.dart';
 
 import '../../widgets_and_functions/TextFieldCustom.dart';
 import '../../widgets_and_functions/dialog_model.dart';
@@ -22,19 +25,29 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController password = TextEditingController(text: "Mm#123456");
 
   final form = GlobalKey<FormState>();
+  late ThemeProvider themeProvider;
 
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
+    themeProvider = Provider.of<ThemeProvider>(context);
+
     return Stack(
       children: [
-        Image.asset(
-          "assets/images/login.png",
-          height: height,
-          width: width,
-          fit: BoxFit.fill,
-        ),
+        themeProvider.theme == ThemeMode.light
+            ? Image.asset(
+                "assets/images/login.png",
+                height: height,
+                width: width,
+                fit: BoxFit.fill,
+              )
+            : Image.asset(
+                "assets/images/SIGN IN – 1.png",
+                height: height,
+                width: width,
+                fit: BoxFit.fill,
+              ),
         Scaffold(
           backgroundColor: Colors.transparent,
           appBar: AppBar(
@@ -109,7 +122,12 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   loginFirebaseAuth() async {
-    DailogUtils.showLoading(context);
+    DailogUtils.showLoading(
+      context,
+      themeProvider.theme == ThemeMode.light
+          ? ColorApp.whiteColor
+          : ColorApp.itemsDarkColor,
+    );
 
     try {
       final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
@@ -117,6 +135,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
       DailogUtils.hideLoading(context);
       DailogUtils.showMessage(
+          color: themeProvider.theme == ThemeMode.light
+              ? ColorApp.whiteColor
+              : ColorApp.itemsDarkColor,
           context: context,
           title: AppLocalizations.of(context)!.success,
           content: AppLocalizations.of(context)!.login_successfully,
@@ -129,6 +150,9 @@ class _LoginScreenState extends State<LoginScreen> {
       if (e.code == 'invalid-credential') {
         DailogUtils.hideLoading(context);
         DailogUtils.showMessage(
+            color: themeProvider.theme == ThemeMode.light
+                ? ColorApp.whiteColor
+                : ColorApp.itemsDarkColor,
             context: context,
             title: AppLocalizations.of(context)!.faild,
             content: AppLocalizations.of(context)!.email_or_password_wrong,
@@ -136,6 +160,9 @@ class _LoginScreenState extends State<LoginScreen> {
       } else if (e.code == 'network-request-failed') {
         DailogUtils.hideLoading(context);
         DailogUtils.showMessage(
+          color: themeProvider.theme == ThemeMode.light
+              ? ColorApp.whiteColor
+              : ColorApp.itemsDarkColor,
           context: context,
           title: AppLocalizations.of(context)!.faild,
           content: AppLocalizations.of(context)!.network_request_failed,
@@ -145,6 +172,9 @@ class _LoginScreenState extends State<LoginScreen> {
     } catch (e) {
       DailogUtils.hideLoading(context);
       DailogUtils.showMessage(
+          color: themeProvider.theme == ThemeMode.light
+              ? ColorApp.whiteColor
+              : ColorApp.itemsDarkColor,
           context: context,
           title: AppLocalizations.of(context)!.faild,
           content: AppLocalizations.of(context)!

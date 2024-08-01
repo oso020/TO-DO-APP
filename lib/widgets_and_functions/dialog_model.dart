@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 
 class DailogUtils {
-  static showLoading(BuildContext context) {
+  static showLoading(BuildContext context, Color color) {
     return showDialog(
       context: context,
       barrierDismissible: false,
       builder: (context) {
         return AlertDialog(
+          backgroundColor: color,
           content: Row(
             children: [
               CircularProgressIndicator(),
@@ -30,6 +31,7 @@ class DailogUtils {
 
   static showMessage({
     required BuildContext context,
+    required Color color,
     required String content,
     required String title,
     String? button1Name,
@@ -65,6 +67,7 @@ class DailogUtils {
               )));
         }
         return AlertDialog(
+          backgroundColor: color,
           content: Text(
             content,
             style: Theme.of(context).textTheme.bodySmall,

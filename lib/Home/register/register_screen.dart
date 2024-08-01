@@ -1,7 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 import 'package:to_do_app/Home/login/login_screen.dart';
+import 'package:to_do_app/providers/theme_provider.dart';
+import 'package:to_do_app/theme_and_color/color_app.dart';
 import 'package:to_do_app/widgets_and_functions/dialog_model.dart';
 
 import '../../widgets_and_functions/TextFieldCustom.dart';
@@ -36,20 +39,29 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   final form = GlobalKey<FormState>();
+  late ThemeProvider themeProvider;
 
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
+    themeProvider = Provider.of<ThemeProvider>(context);
 
     return Stack(
       children: [
-        Image.asset(
-          "assets/images/login.png",
-          height: height,
-          width: width,
+        themeProvider.theme == ThemeMode.light
+            ? Image.asset(
+                "assets/images/login.png",
+                height: height,
+                width: width,
           fit: BoxFit.fill,
-        ),
+              )
+            : Image.asset(
+                "assets/images/SIGN IN – 1.png",
+                height: height,
+                width: width,
+                fit: BoxFit.fill,
+              ),
         Scaffold(
           backgroundColor: Colors.transparent,
           appBar: AppBar(
@@ -151,7 +163,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   registerFirebaseAuth() async {
-    DailogUtils.showLoading(context);
+    DailogUtils.showLoading(
+      context,
+      themeProvider.theme == ThemeMode.light
+          ? ColorApp.whiteColor
+          : ColorApp.itemsDarkColor,
+    );
     try {
       final credential =
           await FirebaseAuth.instance.createUserWithEmailAndPassword(
@@ -160,6 +177,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
       );
       DailogUtils.hideLoading(context);
       DailogUtils.showMessage(
+          color: themeProvider.theme == ThemeMode.light
+              ? ColorApp.whiteColor
+              : ColorApp.itemsDarkColor,
           context: context,
           title: AppLocalizations.of(context)!.success,
           content: AppLocalizations.of(context)!.created_successfully,
@@ -171,6 +191,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
       if (e.code == 'invalid-credential') {
         DailogUtils.hideLoading(context);
         DailogUtils.showMessage(
+          color: themeProvider.theme == ThemeMode.light
+              ? ColorApp.whiteColor
+              : ColorApp.itemsDarkColor,
           context: context,
           title: AppLocalizations.of(context)!.faild,
           content: AppLocalizations.of(context)!.email_or_password_wrong,
@@ -179,6 +202,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
       } else if (e.code == 'email-already-in-use') {
         DailogUtils.hideLoading(context);
         DailogUtils.showMessage(
+          color: themeProvider.theme == ThemeMode.light
+              ? ColorApp.whiteColor
+              : ColorApp.itemsDarkColor,
           context: context,
           title: AppLocalizations.of(context)!.faild,
           content: AppLocalizations.of(context)!.email_already_in_use,
@@ -187,6 +213,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
       } else if (e.code == 'network-request-failed') {
         DailogUtils.hideLoading(context);
         DailogUtils.showMessage(
+          color: themeProvider.theme == ThemeMode.light
+              ? ColorApp.whiteColor
+              : ColorApp.itemsDarkColor,
           context: context,
           title: AppLocalizations.of(context)!.faild,
           content: AppLocalizations.of(context)!.network_request_failed,
@@ -196,6 +225,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
     } catch (e) {
       DailogUtils.hideLoading(context);
       DailogUtils.showMessage(
+          color: themeProvider.theme == ThemeMode.light
+              ? ColorApp.whiteColor
+              : ColorApp.itemsDarkColor,
           context: context,
           title: AppLocalizations.of(context)!.faild,
           content: AppLocalizations.of(context)!

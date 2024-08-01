@@ -65,17 +65,25 @@ class _TaskItemState extends State<TaskItem> {
   }
 
   doneTask() {
-    DailogUtils.showLoading(context);
+    DailogUtils.showLoading(
+      context,
+      themeProvider.theme == ThemeMode.light
+          ? ColorApp.whiteColor
+          : ColorApp.itemsDarkColor,
+    );
     getTaskProvider.isDone = true;
     getTaskProvider.doneTask(widget.task.id).timeout(const Duration(seconds: 1),
         onTimeout: () {
       getTaskProvider.getTaskFromFireStore();
       DailogUtils.hideLoading(context);
       DailogUtils.showMessage(
-        title: "Success",
-        content: "Finished Task Successfully",
+        color: themeProvider.theme == ThemeMode.light
+            ? ColorApp.whiteColor
+            : ColorApp.itemsDarkColor,
+        title: AppLocalizations.of(context)!.success,
+        content: AppLocalizations.of(context)!.finished_task_successfully,
         context: context,
-        button1Name: "Ok",
+        button1Name: AppLocalizations.of(context)!.ok,
       );
     });
   }
@@ -200,17 +208,25 @@ class _TaskItemState extends State<TaskItem> {
   }
 
   Future<void> deleteTask() {
-    DailogUtils.showLoading(context);
+    DailogUtils.showLoading(
+      context,
+      themeProvider.theme == ThemeMode.light
+          ? ColorApp.whiteColor
+          : ColorApp.itemsDarkColor,
+    );
     return getTaskProvider
         .deleteFromFireStore(widget.task.id)
         .timeout(const Duration(seconds: 1), onTimeout: () {
       getTaskProvider.getTaskFromFireStore();
       DailogUtils.hideLoading(context);
       DailogUtils.showMessage(
-        title: "Success",
-        content: "Deleted Successfully",
+        color: themeProvider.theme == ThemeMode.light
+            ? ColorApp.whiteColor
+            : ColorApp.itemsDarkColor,
+        title: AppLocalizations.of(context)!.success,
+        content: AppLocalizations.of(context)!.delete_successfully,
         context: context,
-        button1Name: "Ok",
+        button1Name: AppLocalizations.of(context)!.ok,
       );
     });
   }

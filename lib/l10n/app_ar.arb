@@ -46,7 +46,12 @@
   "enter_valid_email": "ادخل بريد الكتروني صحيح",
   "enter_your_email": "ادخل البريد الالكتروني",
   "user": "المستخدم",
-  "enter_your_user_name": "ادخل اسم المستخدم"
+  "enter_your_user_name": "ادخل اسم المستخدم",
+  "added_task": "اضف مهام",
+  "finished_task_successfully": "تم انهاء المهمه بنجاح",
+  "delete_successfully": "تم الحذف بنجاح",
+  "update_successfully": "تم التحديث بنجاح",
+  "added_successfully": "تم الاضافه بنجاح"
 
 
 }

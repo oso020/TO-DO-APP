@@ -46,5 +46,11 @@
   "enter_valid_email": "Enter valid email",
   "enter_your_email": "Enter your email",
   "user": "User",
-  "enter_your_user_name": "Enter your UserName"
+  "enter_your_user_name": "Enter your UserName",
+  "added_task": "Added Task",
+  "finished_task_successfully": "Finished Task Successfully",
+  "delete_successfully": "Deleted Successfully",
+  "update_successfully": "Updated Successfully",
+  "added_successfully": "Added Successfully"
+
 }

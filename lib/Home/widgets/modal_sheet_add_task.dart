@@ -22,12 +22,13 @@ class _ModalSheetAddTaskState extends State<ModalSheetAddTask> {
   String title = "";
   String description = "";
   late GetTaskProvider getTaskProvider;
+  late ThemeProvider themeProvider;
 
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-    var themeProvider = Provider.of<ThemeProvider>(context);
+    themeProvider = Provider.of<ThemeProvider>(context);
     getTaskProvider = Provider.of<GetTaskProvider>(context);
 
     return Container(
@@ -151,17 +152,25 @@ class _ModalSheetAddTaskState extends State<ModalSheetAddTask> {
       description: description,
       dateTime: selectDate,
     );
-    DailogUtils.showLoading(context);
+    DailogUtils.showLoading(
+      context,
+      themeProvider.theme == ThemeMode.light
+          ? ColorApp.whiteColor
+          : ColorApp.itemsDarkColor,
+    );
     return FirebaseUtils.addTaskToFireStore(task).timeout(Duration(seconds: 2),
         onTimeout: () {
       Navigator.pop(context);
       getTaskProvider.getTaskFromFireStore();
       DailogUtils.hideLoading(context);
       DailogUtils.showMessage(
-        title: "Success",
-        content: "Added Successfully",
+        color: themeProvider.theme == ThemeMode.light
+            ? ColorApp.whiteColor
+            : ColorApp.itemsDarkColor,
+        title: AppLocalizations.of(context)!.success,
+        content: AppLocalizations.of(context)!.added_successfully,
         context: context,
-        button1Name: "Ok",
+        button1Name: AppLocalizations.of(context)!.ok,
       );
     });
   }

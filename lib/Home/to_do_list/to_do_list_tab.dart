@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:to_do_app/Home/to_do_list/task_item.dart';
 import 'package:to_do_app/providers/getTaskProvider.dart';
@@ -38,7 +39,7 @@ class _ToDOListTapState extends State<ToDOListTap> {
             child: getTaskProvider.tasks.isEmpty
                 ? Center(
                     child: Text(
-                    "Added Some Task",
+                    AppLocalizations.of(context)!.add_new_task,
                     style: Theme.of(context).textTheme.displayLarge,
                   ))
                 : ListView.builder(
