@@ -8,8 +8,8 @@ class GetTaskProvider extends ChangeNotifier {
   DateTime selectDate = DateTime.now();
   bool isDone = false;
 
-  void getTaskFromFireStore() async {
-    var collection = await FirebaseUtils.getTaskCollection().get();
+  void getTaskFromFireStore(String uid) async {
+    var collection = await FirebaseUtils.getTaskCollection(uid).get();
     tasks = collection.docs.map((task) {
       return task.data();
     }).toList();
@@ -30,22 +30,22 @@ class GetTaskProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void changeSelectDate(DateTime newDateTime) {
+  void changeSelectDate(DateTime newDateTime, String uid) {
     selectDate = newDateTime;
-    getTaskFromFireStore();
+    getTaskFromFireStore(uid);
   }
 
-  Future<void> editTask(
-      String id, String title, String desc, DateTime datetime) {
-    return FirebaseUtils.editTask(id, title, desc, datetime);
+  Future<void> editTask(String id, String title, String desc, String uid,
+      DateTime datetime) {
+    return FirebaseUtils.editTask(id, title, desc, uid, datetime);
   }
 
-  Future<void> doneTask(
-    String id,) async {
-    return await FirebaseUtils.editIsDone(id, isDone);
+  Future<void> doneTask(String id
+      , String uid) async {
+    return await FirebaseUtils.editIsDone(id, isDone, uid);
   }
 
-  Future<void> deleteFromFireStore(String id) async {
-    return await FirebaseUtils.deleteFormFireStore(id);
+  Future<void> deleteFromFireStore(String id, String uid) async {
+    return await FirebaseUtils.deleteFormFireStore(id, uid);
   }
 }

@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../../model/task_model.dart';
 import '../../providers/getTaskProvider.dart';
 import '../../providers/theme_provider.dart';
+import '../../providers/user_auth_provider.dart';
 import '../../theme_and_color/color_app.dart';
 import '../../widgets_and_functions/dialog_model.dart';
 
@@ -222,12 +223,17 @@ class _ChangeDetilesTaskScreenState extends State<ChangeDetilesTaskScreen> {
           ? ColorApp.whiteColor
           : ColorApp.itemsDarkColor,
     );
+    var authProvider = Provider.of<AuthUserProvider>(context, listen: false);
+
     getTaskProvider
-        .editTask(args.id, title.text, description.text, selectDate)
-        .timeout(Duration(seconds: 1), onTimeout: () {
-      Navigator.pop(context);
-      getTaskProvider.getTaskFromFireStore();
-      DailogUtils.hideLoading(context);
+        .editTask(args.id, title.text, description.text,
+            authProvider.currentUser?.id ?? "", selectDate)
+        .then(
+      (value) {
+        Navigator.pop(context);
+        getTaskProvider
+            .getTaskFromFireStore(authProvider.currentUser?.id ?? "");
+        DailogUtils.hideLoading(context);
       DailogUtils.showMessage(
         color: themeProvider.theme == ThemeMode.light
             ? ColorApp.whiteColor
@@ -237,6 +243,7 @@ class _ChangeDetilesTaskScreenState extends State<ChangeDetilesTaskScreen> {
         context: context,
         button1Name: AppLocalizations.of(context)!.ok,
       );
-    });
+      },
+    );
   }
 }

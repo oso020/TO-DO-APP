@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:to_do_app/Home/to_do_list/task_item.dart';
 import 'package:to_do_app/providers/getTaskProvider.dart';
 
+import '../../providers/user_auth_provider.dart';
 import '../../theme_and_color/color_app.dart';
 import '../widgets/EasyDateTimeLinePackage.dart';
 
@@ -18,8 +19,10 @@ class _ToDOListTapState extends State<ToDOListTap> {
   @override
   Widget build(BuildContext context) {
     var getTaskProvider = Provider.of<GetTaskProvider>(context);
+    var authProvider = Provider.of<AuthUserProvider>(context);
+
     if (getTaskProvider.tasks.isEmpty) {
-      getTaskProvider.getTaskFromFireStore();
+      getTaskProvider.getTaskFromFireStore(authProvider.currentUser?.id ?? "");
     }
     double height = MediaQuery.of(context).size.height;
     return Column(

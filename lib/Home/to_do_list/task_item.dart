@@ -6,6 +6,7 @@ import 'package:to_do_app/providers/theme_provider.dart';
 
 import '../../model/task_model.dart';
 import '../../providers/getTaskProvider.dart';
+import '../../providers/user_auth_provider.dart';
 import '../../theme_and_color/color_app.dart';
 import '../../widgets_and_functions/dialog_model.dart';
 import 'change_detiles_task_screen.dart';
@@ -22,6 +23,7 @@ class TaskItem extends StatefulWidget {
 class _TaskItemState extends State<TaskItem> {
   late GetTaskProvider getTaskProvider;
   late ThemeProvider themeProvider;
+  late AuthUserProvider authProvider;
 
   late double height;
   late double width;
@@ -31,6 +33,8 @@ class _TaskItemState extends State<TaskItem> {
     width = MediaQuery.of(context).size.width;
     themeProvider = Provider.of<ThemeProvider>(context);
     getTaskProvider = Provider.of<GetTaskProvider>(context);
+    authProvider = Provider.of<AuthUserProvider>(context);
+
     return Padding(
       padding:
           EdgeInsets.symmetric(vertical: height / 50, horizontal: width / 25),
@@ -72,10 +76,13 @@ class _TaskItemState extends State<TaskItem> {
           : ColorApp.itemsDarkColor,
     );
     getTaskProvider.isDone = true;
-    getTaskProvider.doneTask(widget.task.id).timeout(const Duration(seconds: 1),
-        onTimeout: () {
-      getTaskProvider.getTaskFromFireStore();
-      DailogUtils.hideLoading(context);
+    getTaskProvider
+        .doneTask(widget.task.id, authProvider.currentUser?.id ?? "")
+        .then(
+      (value) {
+        getTaskProvider
+            .getTaskFromFireStore(authProvider.currentUser?.id ?? "");
+        DailogUtils.hideLoading(context);
       DailogUtils.showMessage(
         color: themeProvider.theme == ThemeMode.light
             ? ColorApp.whiteColor
@@ -85,7 +92,8 @@ class _TaskItemState extends State<TaskItem> {
         context: context,
         button1Name: AppLocalizations.of(context)!.ok,
       );
-    });
+      },
+    );
   }
 
   Widget notDoneWidget() {
@@ -215,10 +223,12 @@ class _TaskItemState extends State<TaskItem> {
           : ColorApp.itemsDarkColor,
     );
     return getTaskProvider
-        .deleteFromFireStore(widget.task.id)
-        .timeout(const Duration(seconds: 1), onTimeout: () {
-      getTaskProvider.getTaskFromFireStore();
-      DailogUtils.hideLoading(context);
+        .deleteFromFireStore(widget.task.id, authProvider.currentUser?.id ?? "")
+        .then(
+      (value) {
+        getTaskProvider
+            .getTaskFromFireStore(authProvider.currentUser?.id ?? "");
+        DailogUtils.hideLoading(context);
       DailogUtils.showMessage(
         color: themeProvider.theme == ThemeMode.light
             ? ColorApp.whiteColor
@@ -228,6 +238,7 @@ class _TaskItemState extends State<TaskItem> {
         context: context,
         button1Name: AppLocalizations.of(context)!.ok,
       );
-    });
+      },
+    );
   }
 }

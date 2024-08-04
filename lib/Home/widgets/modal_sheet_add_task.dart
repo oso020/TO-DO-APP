@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:to_do_app/providers/getTaskProvider.dart';
+import 'package:to_do_app/providers/user_auth_provider.dart';
 import 'package:to_do_app/widgets_and_functions/dialog_model.dart';
 
 import '../../firebase_utils.dart';
@@ -70,8 +71,8 @@ class _ModalSheetAddTaskState extends State<ModalSheetAddTask> {
                       },
                       style: Theme.of(context).textTheme.bodySmall,
                       decoration: InputDecoration(
-                          errorStyle: const TextStyle(fontSize: 12),
-                          hintText: AppLocalizations.of(context)!.enter_title,
+                        errorStyle: const TextStyle(fontSize: 12),
+                        hintText: AppLocalizations.of(context)!.enter_title,
                         hintStyle: Theme.of(context).textTheme.bodySmall,
                       ),
                     ),
@@ -158,11 +159,16 @@ class _ModalSheetAddTaskState extends State<ModalSheetAddTask> {
           ? ColorApp.whiteColor
           : ColorApp.itemsDarkColor,
     );
-    return FirebaseUtils.addTaskToFireStore(task).timeout(Duration(seconds: 2),
-        onTimeout: () {
-      Navigator.pop(context);
-      getTaskProvider.getTaskFromFireStore();
-      DailogUtils.hideLoading(context);
+
+    var authProvider = Provider.of<AuthUserProvider>(context, listen: false);
+    return FirebaseUtils.addTaskToFireStore(
+            task, authProvider.currentUser?.id ?? "")
+        .then(
+      (value) {
+        Navigator.pop(context);
+        getTaskProvider
+            .getTaskFromFireStore(authProvider.currentUser?.id ?? "");
+        DailogUtils.hideLoading(context);
       DailogUtils.showMessage(
         color: themeProvider.theme == ThemeMode.light
             ? ColorApp.whiteColor
@@ -172,7 +178,8 @@ class _ModalSheetAddTaskState extends State<ModalSheetAddTask> {
         context: context,
         button1Name: AppLocalizations.of(context)!.ok,
       );
-    });
+      },
+    );
   }
 
   void openDateSheet() async {

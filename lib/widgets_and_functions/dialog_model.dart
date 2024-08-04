@@ -38,10 +38,10 @@ class DailogUtils {
     Function? button1Function,
     String? button2Name,
     Function? button2Function,
-  }) {
+      bool? barrierDismissible}) {
     return showDialog(
       context: context,
-      barrierDismissible: false,
+      barrierDismissible: barrierDismissible ?? false,
       builder: (context) {
         List<Widget> actions = [];
         if (button1Name != null) {

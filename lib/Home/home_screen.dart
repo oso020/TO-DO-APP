@@ -1,10 +1,17 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
+import 'package:to_do_app/Home/login/login_screen.dart';
 import 'package:to_do_app/Home/settings/settings_tab.dart';
 import 'package:to_do_app/Home/to_do_list/to_do_list_tab.dart';
 import 'package:to_do_app/Home/widgets/modal_sheet_add_task.dart';
+import 'package:to_do_app/providers/user_auth_provider.dart';
 
+import '../providers/getTaskProvider.dart';
+import '../providers/theme_provider.dart';
 import '../theme_and_color/color_app.dart';
+import '../widgets_and_functions/dialog_model.dart';
 
 class Home extends StatefulWidget {
   static const String routeName = "home";
@@ -21,12 +28,38 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
+    var authProvider = Provider.of<AuthUserProvider>(context);
+    var getTaskProvider = Provider.of<GetTaskProvider>(context);
+    var themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          AppLocalizations.of(context)!.to_do_list,
+          "${AppLocalizations.of(context)!.to_do_list} \n UserName: ${authProvider.currentUser!.userName!} ",
           style: Theme.of(context).textTheme.titleMedium,
         ),
+        actions: [
+          IconButton(
+              onPressed: () {
+                DailogUtils.showMessage(
+                    color: themeProvider.theme == ThemeMode.light
+                        ? ColorApp.whiteColor
+                        : ColorApp.itemsDarkColor,
+                    title: AppLocalizations.of(context)!.are_you_sure,
+                    content: AppLocalizations.of(context)!.logout,
+                    context: context,
+                    button2Name: AppLocalizations.of(context)!.yes,
+                    button2Function: () async {
+                      getTaskProvider.tasks = [];
+                      authProvider.currentUser = null;
+                      await FirebaseAuth.instance.signOut();
+                      Navigator.pushReplacementNamed(
+                          context, LoginScreen.routeName);
+                    },
+                    button1Name: AppLocalizations.of(context)!.no,
+                    barrierDismissible: true);
+              },
+              icon: Icon(Icons.logout))
+        ],
       ),
       bottomNavigationBar: BottomAppBar(
         padding: EdgeInsets.zero,

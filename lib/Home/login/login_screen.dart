@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:to_do_app/Home/register/register_screen.dart';
+import 'package:to_do_app/firebase_utils.dart';
 import 'package:to_do_app/providers/theme_provider.dart';
+import 'package:to_do_app/providers/user_auth_provider.dart';
 import 'package:to_do_app/theme_and_color/color_app.dart';
 
 import '../../widgets_and_functions/TextFieldCustom.dart';
@@ -133,6 +135,13 @@ class _LoginScreenState extends State<LoginScreen> {
       final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: email.text, password: password.text);
 
+      var user =
+          await FirebaseUtils.readUserFromFirestore(credential.user?.uid ?? "");
+      if (user == null) {
+        return;
+      }
+      var authProvider = Provider.of<AuthUserProvider>(context, listen: false);
+      authProvider.updateUser(user);
       DailogUtils.hideLoading(context);
       DailogUtils.showMessage(
           color: themeProvider.theme == ThemeMode.light

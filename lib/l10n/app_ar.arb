@@ -51,7 +51,11 @@
   "finished_task_successfully": "تم انهاء المهمه بنجاح",
   "delete_successfully": "تم الحذف بنجاح",
   "update_successfully": "تم التحديث بنجاح",
-  "added_successfully": "تم الاضافه بنجاح"
+  "added_successfully": "تم الاضافه بنجاح",
+  "yes": "نعم",
+  "no": "لا",
+  "are_you_sure": "هل انت متاكد",
+  "logout": "تسجيل خروج"
 
 
 }

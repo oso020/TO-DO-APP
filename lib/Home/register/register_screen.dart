@@ -2,12 +2,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
-import 'package:to_do_app/Home/login/login_screen.dart';
+import 'package:to_do_app/model/user_model.dart';
 import 'package:to_do_app/providers/theme_provider.dart';
 import 'package:to_do_app/theme_and_color/color_app.dart';
 import 'package:to_do_app/widgets_and_functions/dialog_model.dart';
 
+import '../../firebase_utils.dart';
+import '../../providers/user_auth_provider.dart';
 import '../../widgets_and_functions/TextFieldCustom.dart';
+import '../home_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
   static const String routeName = "register_screen";
@@ -54,7 +57,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 "assets/images/login.png",
                 height: height,
                 width: width,
-          fit: BoxFit.fill,
+                fit: BoxFit.fill,
               )
             : Image.asset(
                 "assets/images/SIGN IN – 1.png",
@@ -170,11 +173,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
           : ColorApp.itemsDarkColor,
     );
     try {
+      print("success1");
       final credential =
           await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email.text,
         password: password.text,
       );
+      UserModel userData = UserModel(
+          id: credential.user?.uid ?? '',
+          email: email.text,
+          userName: userName.text);
+
+      var authProvider = Provider.of<AuthUserProvider>(context, listen: false);
+      authProvider.updateUser(userData);
+      await FirebaseUtils.addUserFireStore(userData);
+      print("success2");
       DailogUtils.hideLoading(context);
       DailogUtils.showMessage(
           color: themeProvider.theme == ThemeMode.light
@@ -185,7 +198,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           content: AppLocalizations.of(context)!.created_successfully,
           button1Name: AppLocalizations.of(context)!.ok,
           button1Function: () {
-            Navigator.pushReplacementNamed(context, LoginScreen.routeName);
+            Navigator.pushReplacementNamed(context, Home.routeName);
           });
     } on FirebaseAuthException catch (e) {
       if (e.code == 'invalid-credential') {

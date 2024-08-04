@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -11,6 +10,7 @@ import 'package:to_do_app/firebase_options.dart';
 import 'package:to_do_app/providers/getTaskProvider.dart';
 import 'package:to_do_app/providers/language_provider.dart';
 import 'package:to_do_app/providers/theme_provider.dart';
+import 'package:to_do_app/providers/user_auth_provider.dart';
 import 'package:to_do_app/theme_and_color/theme_app.dart';
 
 import 'Home/to_do_list/change_detiles_task_screen.dart';
@@ -18,8 +18,7 @@ import 'Home/to_do_list/change_detiles_task_screen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  await FirebaseFirestore.instance.disableNetwork();
-
+  // await FirebaseFirestore.instance.disableNetwork();6
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   final String? savedLanguage = sharedPreferences.getString('appLanguage');
   final bool? theme = sharedPreferences.getBool('theme');
@@ -32,6 +31,9 @@ void main() async {
     ),
     ChangeNotifierProvider(
       create: (context) => GetTaskProvider(),
+    ),
+    ChangeNotifierProvider(
+      create: (context) => AuthUserProvider(),
     ),
   ], child: const MyApp()));
 }
