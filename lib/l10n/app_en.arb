@@ -54,6 +54,7 @@
   "added_successfully": "Added Successfully",
   "yes": "Yes",
   "no": "No",
-  "are_you_sure": "Are you Sure",
-  "logout": "Logout"
+  "are_you_sure": "Are you Sure?",
+  "logout": "Logout",
+  "loading": "Loading..."
 }

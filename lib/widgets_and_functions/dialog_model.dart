@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DailogUtils {
   static showLoading(BuildContext context, Color color) {
@@ -14,7 +15,7 @@ class DailogUtils {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  "Loading...",
+                  AppLocalizations.of(context)!.loading,
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
               )

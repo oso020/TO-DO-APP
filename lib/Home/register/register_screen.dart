@@ -173,7 +173,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
           : ColorApp.itemsDarkColor,
     );
     try {
-      print("success1");
       final credential =
           await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email.text,
@@ -187,7 +186,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
       var authProvider = Provider.of<AuthUserProvider>(context, listen: false);
       authProvider.updateUser(userData);
       await FirebaseUtils.addUserFireStore(userData);
-      print("success2");
       DailogUtils.hideLoading(context);
       DailogUtils.showMessage(
           color: themeProvider.theme == ThemeMode.light
@@ -198,7 +196,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
           content: AppLocalizations.of(context)!.created_successfully,
           button1Name: AppLocalizations.of(context)!.ok,
           button1Function: () {
-            Navigator.pushReplacementNamed(context, Home.routeName);
+            Navigator.pushNamedAndRemoveUntil(
+              context,
+              Home.routeName,
+              (Route<dynamic> route) => false,
+            );
           });
     } on FirebaseAuthException catch (e) {
       if (e.code == 'invalid-credential') {

@@ -33,8 +33,9 @@ class _HomeState extends State<Home> {
     var themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
       appBar: AppBar(
+        toolbarHeight: height / 10,
         title: Text(
-          "${AppLocalizations.of(context)!.to_do_list} \n UserName: ${authProvider.currentUser!.userName!} ",
+          "${AppLocalizations.of(context)!.to_do_list} \n ${AppLocalizations.of(context)!.user}: ${authProvider.currentUser!.userName!} ",
           style: Theme.of(context).textTheme.titleMedium,
         ),
         actions: [
@@ -60,6 +61,7 @@ class _HomeState extends State<Home> {
               },
               icon: Icon(Icons.logout))
         ],
+        elevation: 0,
       ),
       bottomNavigationBar: BottomAppBar(
         padding: EdgeInsets.zero,

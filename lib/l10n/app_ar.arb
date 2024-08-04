@@ -54,8 +54,9 @@
   "added_successfully": "تم الاضافه بنجاح",
   "yes": "نعم",
   "no": "لا",
-  "are_you_sure": "هل انت متاكد",
-  "logout": "تسجيل خروج"
+  "are_you_sure": "هل انت متاكد؟",
+  "logout": "تسجيل خروج",
+  "loading": "انتظار..."
 
 
 }

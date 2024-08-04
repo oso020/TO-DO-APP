@@ -34,7 +34,6 @@ class _ModalSheetAddTaskState extends State<ModalSheetAddTask> {
 
     return Container(
       padding: const EdgeInsets.all(10),
-      height: height / 1.5,
       width: width,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
@@ -139,7 +138,10 @@ class _ModalSheetAddTaskState extends State<ModalSheetAddTask> {
                       .bodyMedium!
                       .copyWith(color: ColorApp.whiteColor),
                 ),
-              )
+              ),
+              SizedBox(
+                height: height / 9,
+              ),
             ],
           ),
         ),
