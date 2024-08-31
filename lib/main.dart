@@ -14,10 +14,13 @@ import 'package:to_do_app/providers/user_auth_provider.dart';
 import 'package:to_do_app/theme_and_color/theme_app.dart';
 
 import 'Home/to_do_list/change_detiles_task_screen.dart';
+import 'di/di.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  configureDependencies();
+
   // await FirebaseFirestore.instance.disableNetwork();6
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   final String? savedLanguage = sharedPreferences.getString('appLanguage');
@@ -47,11 +50,11 @@ class MyApp extends StatelessWidget {
     var themeProvider = Provider.of<ThemeProvider>(context);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: LoginScreen.routeName,
+      initialRoute: RegisterScreen.routeName,
       theme: ThemeApp.themeLight,
       themeMode: themeProvider.theme,
       darkTheme: ThemeApp.themeDark,
-      locale: Locale(languageProvider.locale),
+      locale: Locale("en"),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       routes: {

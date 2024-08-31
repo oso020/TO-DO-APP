@@ -1,12 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:to_do_app/Home/login/login_screen.dart';
 import 'package:to_do_app/Home/settings/settings_tab.dart';
 import 'package:to_do_app/Home/to_do_list/to_do_list_tab.dart';
 import 'package:to_do_app/Home/widgets/modal_sheet_add_task.dart';
 import 'package:to_do_app/providers/user_auth_provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../providers/getTaskProvider.dart';
 import '../providers/theme_provider.dart';
