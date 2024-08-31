@@ -7,6 +7,7 @@ import 'package:to_do_app/Home/home_screen.dart';
 import 'package:to_do_app/Home/login/login_screen.dart';
 import 'package:to_do_app/Home/register/register_screen.dart';
 import 'package:to_do_app/firebase_options.dart';
+import 'package:to_do_app/get_route.dart';
 import 'package:to_do_app/providers/getTaskProvider.dart';
 import 'package:to_do_app/providers/language_provider.dart';
 import 'package:to_do_app/providers/theme_provider.dart';
@@ -50,20 +51,21 @@ class MyApp extends StatelessWidget {
     var themeProvider = Provider.of<ThemeProvider>(context);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: RegisterScreen.routeName,
+      initialRoute: LoginScreen.routeName,
       theme: ThemeApp.themeLight,
       themeMode: themeProvider.theme,
       darkTheme: ThemeApp.themeDark,
       locale: Locale("en"),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      routes: {
-        Home.routeName: (context) => Home(),
-        ChangeDetilesTaskScreen.routeName: (context) =>
-            ChangeDetilesTaskScreen(),
-        LoginScreen.routeName: (context) => LoginScreen(),
-        RegisterScreen.routeName: (context) => RegisterScreen(),
-      },
+      onGenerateRoute: RouteApp.getRoute,
+      // routes: {
+      //   Home.routeName: (context) => Home(),
+      //   ChangeDetilesTaskScreen.routeName: (context) =>
+      //       ChangeDetilesTaskScreen(),
+      //   LoginScreen.routeName: (context) => LoginScreen(),
+      //   RegisterScreen.routeName: (context) => RegisterScreen(),
+      // },
     );
   }
 }
