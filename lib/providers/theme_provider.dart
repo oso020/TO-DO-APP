@@ -5,11 +5,15 @@ class ThemeProvider extends ChangeNotifier {
   bool? mode;
   ThemeMode? theme;
 
-  ThemeProvider({bool mode = true}) {
-    if (mode) {
-      theme = ThemeMode.dark;
+  ThemeProvider({bool? mode}) {
+    if (mode != null) {
+      this.mode = mode;
+      theme = mode ? ThemeMode.dark : ThemeMode.light;
     } else {
-      theme = ThemeMode.light;
+      // Get the theme from the system settings
+      var brightness = WidgetsBinding.instance.window.platformBrightness;
+      theme = brightness == Brightness.dark ? ThemeMode.dark : ThemeMode.light;
+      this.mode = brightness == Brightness.dark;
     }
   }
 

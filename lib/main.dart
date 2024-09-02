@@ -27,8 +27,9 @@ void main() async {
       create: (context) => LanguageProvider(locale: savedLanguage ?? "en"),
     ),
     ChangeNotifierProvider(
-      create: (context) => ThemeProvider(mode: theme ?? false),
+      create: (context) => ThemeProvider(mode: theme),
     ),
+
     ChangeNotifierProvider(
       create: (context) => GetTaskProvider(),
     ),

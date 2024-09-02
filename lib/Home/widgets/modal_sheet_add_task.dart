@@ -1,6 +1,8 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:to_do_app/Home/login/login_screen.dart';
 import 'package:to_do_app/providers/getTaskProvider.dart';
 import 'package:to_do_app/providers/user_auth_provider.dart';
 import 'package:to_do_app/widgets_and_functions/dialog_model.dart';
@@ -149,39 +151,60 @@ class _ModalSheetAddTaskState extends State<ModalSheetAddTask> {
     );
   }
 
-  Future<void> addTask() {
-    Task task = Task(
-      title: title,
-      description: description,
-      dateTime: selectDate,
-    );
+  Future<void> addTask() async {
     DailogUtils.showLoading(
       context,
       themeProvider.theme == ThemeMode.light
           ? ColorApp.whiteColor
           : ColorApp.itemsDarkColor,
     );
-
-    var authProvider = Provider.of<AuthUserProvider>(context, listen: false);
-    return FirebaseUtils.addTaskToFireStore(
-            task, authProvider.currentUser?.id ?? "")
-        .then(
-      (value) {
-        Navigator.pop(context);
-        getTaskProvider
-            .getTaskFromFireStore(authProvider.currentUser?.id ?? "");
-        DailogUtils.hideLoading(context);
-      DailogUtils.showMessage(
-        color: themeProvider.theme == ThemeMode.light
-            ? ColorApp.whiteColor
-            : ColorApp.itemsDarkColor,
-        title: AppLocalizations.of(context)!.success,
-        content: AppLocalizations.of(context)!.added_successfully,
-        context: context,
-        button1Name: AppLocalizations.of(context)!.ok,
+    final List<ConnectivityResult> connectivityResult =
+        await (Connectivity().checkConnectivity());
+    if (connectivityResult.contains(ConnectivityResult.mobile) ||
+        connectivityResult.contains(ConnectivityResult.wifi)) {
+      Task task = Task(
+        title: title,
+        description: description,
+        dateTime: selectDate,
       );
-      },
-    );
+
+      var authProvider = Provider.of<AuthUserProvider>(context, listen: false);
+      return FirebaseUtils.addTaskToFireStore(
+          task, authProvider.currentUser?.id ?? "")
+          .then(
+            (value) {
+          Navigator.pop(context);
+          getTaskProvider
+              .getTaskFromFireStore(authProvider.currentUser?.id ?? "");
+          DailogUtils.hideLoading(context);
+          DailogUtils.showMessage(
+            color: themeProvider.theme == ThemeMode.light
+                ? ColorApp.whiteColor
+                : ColorApp.itemsDarkColor,
+            title: AppLocalizations.of(context)!.success,
+            content: AppLocalizations.of(context)!.added_successfully,
+            context: context,
+            button1Name: AppLocalizations.of(context)!.ok,
+          );
+        },
+      );
+    }else{
+      DailogUtils.hideLoading(context);
+      DailogUtils.showMessage(
+          color: themeProvider.theme == ThemeMode.light
+          ? ColorApp.whiteColor
+              : ColorApp.itemsDarkColor,
+          context: context,
+          title: AppLocalizations.of(context)!.faild,
+    content: AppLocalizations.of(context)!.network_request_failed,
+    button1Name: AppLocalizations.of(context)!.ok,
+        button1Function: (){
+          Navigator.pushNamedAndRemoveUntil(context, LoginScreen.routeName,
+          (route) => false,
+          );
+        }
+      );
+    }
   }
 
   void openDateSheet() async {

@@ -22,14 +22,14 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  TextEditingController userName = TextEditingController(text: "mohamed");
+  TextEditingController userName = TextEditingController();
 
-  TextEditingController email = TextEditingController(text: "osman@gmail.com");
+  TextEditingController email = TextEditingController();
 
-  TextEditingController password = TextEditingController(text: "Mm#123456");
+  TextEditingController password = TextEditingController();
 
-  TextEditingController confiramPassword =
-      TextEditingController(text: "Mm#123456");
+  TextEditingController confiramPassword = TextEditingController();
+  bool isSecure = true;
 
   @override
   void dispose() {
@@ -129,6 +129,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       return null;
                     },
                     controller: password,
+                    obSecure: isSecure,
+                    suffixIcon: IconButton(
+                      onPressed: () {
+                        isSecure = !isSecure;
+                        setState(() {});
+                      },
+                      icon: isSecure == true
+                          ? Icon(Icons.visibility_off)
+                          : Icon(Icons.visibility),
+                    ),
                     lableText: AppLocalizations.of(context)!.password,
                   ),
                   Textfieldcustom(

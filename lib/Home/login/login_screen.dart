@@ -22,12 +22,13 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  TextEditingController email = TextEditingController(text: "osman@gmail.com");
+  TextEditingController email = TextEditingController();
 
-  TextEditingController password = TextEditingController(text: "Mm#123456");
+  TextEditingController password = TextEditingController();
 
   final form = GlobalKey<FormState>();
   late ThemeProvider themeProvider;
+  bool isSecure = true;
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +77,14 @@ class _LoginScreenState extends State<LoginScreen> {
                 Textfieldcustom(
                   validator: (text) {
                     if (text == null || text.isEmpty) {
-                      return AppLocalizations.of(context)!.please_enter_email;
+                      return AppLocalizations.of(context)!.enter_your_email;
+                    }
+                    final bool emailValid = RegExp(
+                        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                        .hasMatch(text);
+
+                    if (!emailValid) {
+                      return AppLocalizations.of(context)!.enter_valid_email;
                     }
                     return null;
                   },
@@ -92,7 +100,18 @@ class _LoginScreenState extends State<LoginScreen> {
                     return null;
                   },
                   controller: password,
+                  obSecure: isSecure,
+                  suffixIcon: IconButton(
+                    onPressed: () {
+                      isSecure = !isSecure;
+                      setState(() {});
+                    },
+                    icon: isSecure == true
+                        ? Icon(Icons.visibility_off)
+                        : Icon(Icons.visibility),
+                  ),
                   lableText: AppLocalizations.of(context)!.password,
+
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -155,7 +174,6 @@ class _LoginScreenState extends State<LoginScreen> {
             Navigator.pushReplacementNamed(context, Home.routeName);
           });
     } on FirebaseAuthException catch (e) {
-      print(e.code);
       if (e.code == 'invalid-credential') {
         DailogUtils.hideLoading(context);
         DailogUtils.showMessage(

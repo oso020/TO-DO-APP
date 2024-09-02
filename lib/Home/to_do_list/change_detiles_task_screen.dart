@@ -1,6 +1,8 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:to_do_app/Home/login/login_screen.dart';
 
 import '../../model/task_model.dart';
 import '../../providers/getTaskProvider.dart';
@@ -165,9 +167,31 @@ class _ChangeDetilesTaskScreenState extends State<ChangeDetilesTaskScreen> {
                       ),
                     ),
                     ElevatedButton(
-                      onPressed: () {
+                      onPressed: ()async {
                         if (form.currentState!.validate()) {
-                          editTask();
+                          final List<ConnectivityResult> connectivityResult =
+                          await (Connectivity().checkConnectivity());
+                          if (connectivityResult.contains(
+                              ConnectivityResult.mobile) ||
+                              connectivityResult.contains(
+                                  ConnectivityResult.wifi)) {
+                            editTask();
+                          }else{
+                            DailogUtils.showMessage(
+                                color: themeProvider.theme == ThemeMode.light
+                                    ? ColorApp.whiteColor
+                                    : ColorApp.itemsDarkColor,
+                                context: context,
+                                title: AppLocalizations.of(context)!.faild,
+                                content: AppLocalizations.of(context)!.network_request_failed,
+                                button1Name: AppLocalizations.of(context)!.ok,
+                                button1Function: (){
+                                  Navigator.pushNamedAndRemoveUntil(context, LoginScreen.routeName,
+                                        (route) => false,
+                                  );
+                                }
+                            );
+                          }
                         }
                       },
                       child: Text(
