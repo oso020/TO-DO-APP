@@ -2,10 +2,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:to_do_app/Home/login/login_screen.dart';
 import 'package:to_do_app/Home/settings/settings_tab.dart';
 import 'package:to_do_app/Home/to_do_list/to_do_list_tab.dart';
 import 'package:to_do_app/Home/widgets/modal_sheet_add_task.dart';
+import 'package:to_do_app/SharedPrefsLocal.dart';
+import 'package:to_do_app/model/user_model.dart';
 import 'package:to_do_app/providers/user_auth_provider.dart';
 
 import '../providers/getTaskProvider.dart';
@@ -24,18 +27,33 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int selectIndex = 0;
+  UserModel?data;
+
+getData()async{
+  var dataUser =SharedPrefsLocal.getData(key: "user");
+ data=dataUser;
+}
+
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getData();
+  }
+
+
+
 
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
-    var authProvider = Provider.of<AuthUserProvider>(context);
     var getTaskProvider = Provider.of<GetTaskProvider>(context);
     var themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: height / 10,
         title: Text(
-          "${AppLocalizations.of(context)!.to_do_list} \n ${AppLocalizations.of(context)!.user}: ${authProvider.currentUser!.userName!} ",
+          "${AppLocalizations.of(context)!.to_do_list} \n ${data?.userName} ",
           style: Theme.of(context).textTheme.titleMedium,
         ),
         actions: [
@@ -51,7 +69,7 @@ class _HomeState extends State<Home> {
                     button2Name: AppLocalizations.of(context)!.yes,
                     button2Function: () async {
                       getTaskProvider.tasks = [];
-                      authProvider.currentUser = null;
+                     SharedPrefsLocal.prefs.remove("user");
                       await FirebaseAuth.instance.signOut();
                       Navigator.pushReplacementNamed(
                           context, LoginScreen.routeName);

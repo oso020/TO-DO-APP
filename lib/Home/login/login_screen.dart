@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:to_do_app/Home/register/register_screen.dart';
+import 'package:to_do_app/SharedPrefsLocal.dart';
 import 'package:to_do_app/firebase_utils.dart';
+import 'package:to_do_app/model/user_model.dart';
 import 'package:to_do_app/providers/theme_provider.dart';
 import 'package:to_do_app/providers/user_auth_provider.dart';
 import 'package:to_do_app/theme_and_color/color_app.dart';
@@ -159,8 +161,8 @@ class _LoginScreenState extends State<LoginScreen> {
       if (user == null) {
         return;
       }
-      var authProvider = Provider.of<AuthUserProvider>(context, listen: false);
-      authProvider.updateUser(user);
+      var userModel=UserModel(id: user.id,userName: user.userName,email: user.email);
+      await SharedPrefsLocal.saveData(key: "user", model: userModel);
       DailogUtils.hideLoading(context);
       DailogUtils.showMessage(
           color: themeProvider.theme == ThemeMode.light

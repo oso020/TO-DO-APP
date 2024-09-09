@@ -7,6 +7,7 @@ import 'package:to_do_app/providers/theme_provider.dart';
 import 'package:to_do_app/theme_and_color/color_app.dart';
 import 'package:to_do_app/widgets_and_functions/dialog_model.dart';
 
+import '../../SharedPrefsLocal.dart';
 import '../../firebase_utils.dart';
 import '../../providers/user_auth_provider.dart';
 import '../../widgets_and_functions/TextFieldCustom.dart';
@@ -192,9 +193,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           id: credential.user?.uid ?? '',
           email: email.text,
           userName: userName.text);
-
-      var authProvider = Provider.of<AuthUserProvider>(context, listen: false);
-      authProvider.updateUser(userData);
+      await SharedPrefsLocal.saveData(key: "user", model: userData);
       await FirebaseUtils.addUserFireStore(userData);
       DailogUtils.hideLoading(context);
       DailogUtils.showMessage(

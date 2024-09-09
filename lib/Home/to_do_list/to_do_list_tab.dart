@@ -4,6 +4,8 @@ import 'package:provider/provider.dart';
 import 'package:to_do_app/Home/to_do_list/task_item.dart';
 import 'package:to_do_app/providers/getTaskProvider.dart';
 
+import '../../SharedPrefsLocal.dart';
+import '../../model/user_model.dart';
 import '../../providers/user_auth_provider.dart';
 import '../../theme_and_color/color_app.dart';
 import '../widgets/EasyDateTimeLinePackage.dart';
@@ -16,13 +18,25 @@ class ToDOListTap extends StatefulWidget {
 }
 
 class _ToDOListTapState extends State<ToDOListTap> {
+  UserModel?data;
+
+  getData()async{
+    var dataUser =SharedPrefsLocal.getData(key: "user");
+    data=dataUser;
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getData();
+  }
   @override
   Widget build(BuildContext context) {
     var getTaskProvider = Provider.of<GetTaskProvider>(context);
-    var authProvider = Provider.of<AuthUserProvider>(context);
 
     if (getTaskProvider.tasks.isEmpty) {
-      getTaskProvider.getTaskFromFireStore(authProvider.currentUser?.id ?? "");
+      getTaskProvider.getTaskFromFireStore(data?.id??"");
     }
     double height = MediaQuery.of(context).size.height;
     return Column(

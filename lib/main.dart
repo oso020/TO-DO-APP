@@ -1,11 +1,14 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:to_do_app/Home/home_screen.dart';
 import 'package:to_do_app/Home/login/login_screen.dart';
 import 'package:to_do_app/Home/register/register_screen.dart';
+import 'package:to_do_app/SharedPrefsLocal.dart';
 import 'package:to_do_app/firebase_options.dart';
 import 'package:to_do_app/providers/getTaskProvider.dart';
 import 'package:to_do_app/providers/language_provider.dart';
@@ -18,25 +21,33 @@ import 'Home/to_do_list/change_detiles_task_screen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  // await FirebaseFirestore.instance.disableNetwork();6
+
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  SharedPrefsLocal.init(); // Initialize your SharedPreferences wrapper
+
+  // Get saved language and theme from SharedPreferences
   final String? savedLanguage = sharedPreferences.getString('appLanguage');
   final bool? theme = sharedPreferences.getBool('theme');
-  runApp(MultiProvider(providers: [
-    ChangeNotifierProvider(
-      create: (context) => LanguageProvider(locale: savedLanguage ?? "en"),
-    ),
-    ChangeNotifierProvider(
-      create: (context) => ThemeProvider(mode: theme),
-    ),
 
-    ChangeNotifierProvider(
-      create: (context) => GetTaskProvider(),
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => LanguageProvider(locale: savedLanguage ?? "en"),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => ThemeProvider(mode: theme),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => GetTaskProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => AuthUserProvider(),
+        ),
+      ],
+      child: const MyApp(),
     ),
-    ChangeNotifierProvider(
-      create: (context) => AuthUserProvider(),
-    ),
-  ], child: const MyApp()));
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -46,15 +57,29 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     var languageProvider = Provider.of<LanguageProvider>(context);
     var themeProvider = Provider.of<ThemeProvider>(context);
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: LoginScreen.routeName,
       theme: ThemeApp.themeLight,
       themeMode: themeProvider.theme,
       darkTheme: ThemeApp.themeDark,
       locale: Locale(languageProvider.locale),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
+
+      // Use StreamBuilder to listen to authentication state changes
+      home: StreamBuilder<User?>(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot) {
+          // Check the authentication state
+          if (snapshot.hasData) {
+            return Home();
+          } else {
+            return LoginScreen();
+          }
+        },
+      ),
+
       routes: {
         Home.routeName: (context) => Home(),
         ChangeDetilesTaskScreen.routeName: (context) =>
