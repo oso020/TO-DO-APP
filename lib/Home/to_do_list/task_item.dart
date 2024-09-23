@@ -4,7 +4,9 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
 import 'package:to_do_app/providers/theme_provider.dart';
 
+import '../../SharedPrefsLocal.dart';
 import '../../model/task_model.dart';
+import '../../model/user_model.dart';
 import '../../providers/getTaskProvider.dart';
 import '../../providers/user_auth_provider.dart';
 import '../../theme_and_color/color_app.dart';
@@ -23,17 +25,28 @@ class TaskItem extends StatefulWidget {
 class _TaskItemState extends State<TaskItem> {
   late GetTaskProvider getTaskProvider;
   late ThemeProvider themeProvider;
-  late AuthUserProvider authProvider;
 
   late double height;
   late double width;
+  UserModel?data;
+
+  getData()async{
+    var dataUser =SharedPrefsLocal.getData(key: "user");
+    data=dataUser;
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getData();
+  }
   @override
   Widget build(BuildContext context) {
     height = MediaQuery.of(context).size.height;
     width = MediaQuery.of(context).size.width;
     themeProvider = Provider.of<ThemeProvider>(context);
     getTaskProvider = Provider.of<GetTaskProvider>(context);
-    authProvider = Provider.of<AuthUserProvider>(context);
 
     return Padding(
       padding:
@@ -77,11 +90,11 @@ class _TaskItemState extends State<TaskItem> {
     );
     getTaskProvider.isDone = true;
     getTaskProvider
-        .doneTask(widget.task.id, authProvider.currentUser?.id ?? "")
+        .doneTask(widget.task.id, data!.id??"")
         .then(
       (value) {
         getTaskProvider
-            .getTaskFromFireStore(authProvider.currentUser?.id ?? "");
+            .getTaskFromFireStore(data!.id??"");
         DailogUtils.hideLoading(context);
       DailogUtils.showMessage(
         color: themeProvider.theme == ThemeMode.light
@@ -223,11 +236,11 @@ class _TaskItemState extends State<TaskItem> {
           : ColorApp.itemsDarkColor,
     );
     return getTaskProvider
-        .deleteFromFireStore(widget.task.id, authProvider.currentUser?.id ?? "")
+        .deleteFromFireStore(widget.task.id, data!.id??"")
         .then(
       (value) {
         getTaskProvider
-            .getTaskFromFireStore(authProvider.currentUser?.id ?? "");
+            .getTaskFromFireStore(data!.id??"");
         DailogUtils.hideLoading(context);
       DailogUtils.showMessage(
         color: themeProvider.theme == ThemeMode.light

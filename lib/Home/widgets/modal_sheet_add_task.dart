@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:to_do_app/Home/login/login_screen.dart';
+import 'package:to_do_app/SharedPrefsLocal.dart';
 import 'package:to_do_app/providers/getTaskProvider.dart';
 import 'package:to_do_app/providers/user_auth_provider.dart';
 import 'package:to_do_app/widgets_and_functions/dialog_model.dart';
 
 import '../../firebase_utils.dart';
 import '../../model/task_model.dart';
+import '../../model/user_model.dart';
 import '../../providers/theme_provider.dart';
 import '../../theme_and_color/color_app.dart';
 
@@ -26,6 +28,19 @@ class _ModalSheetAddTaskState extends State<ModalSheetAddTask> {
   String description = "";
   late GetTaskProvider getTaskProvider;
   late ThemeProvider themeProvider;
+
+  UserModel?data;
+
+  getData()async{
+    var dataUser =SharedPrefsLocal.getData(key: "user");
+    data=dataUser;
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getData();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -168,14 +183,13 @@ class _ModalSheetAddTaskState extends State<ModalSheetAddTask> {
         dateTime: selectDate,
       );
 
-      var authProvider = Provider.of<AuthUserProvider>(context, listen: false);
       return FirebaseUtils.addTaskToFireStore(
-          task, authProvider.currentUser?.id ?? "")
+          task, data!.id??"")
           .then(
             (value) {
           Navigator.pop(context);
           getTaskProvider
-              .getTaskFromFireStore(authProvider.currentUser?.id ?? "");
+              .getTaskFromFireStore(data!.id??"");
           DailogUtils.hideLoading(context);
           DailogUtils.showMessage(
             color: themeProvider.theme == ThemeMode.light

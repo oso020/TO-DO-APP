@@ -4,7 +4,9 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:to_do_app/Home/login/login_screen.dart';
 
+import '../../SharedPrefsLocal.dart';
 import '../../model/task_model.dart';
+import '../../model/user_model.dart';
 import '../../providers/getTaskProvider.dart';
 import '../../providers/theme_provider.dart';
 import '../../providers/user_auth_provider.dart';
@@ -30,6 +32,19 @@ class _ChangeDetilesTaskScreenState extends State<ChangeDetilesTaskScreen> {
   late Task args;
   late GetTaskProvider getTaskProvider;
   late ThemeProvider themeProvider;
+  UserModel?data;
+
+  getData()async{
+    var dataUser =SharedPrefsLocal.getData(key: "user");
+    data=dataUser;
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getData();
+  }
 
   @override
   void dispose() {
@@ -247,16 +262,15 @@ class _ChangeDetilesTaskScreenState extends State<ChangeDetilesTaskScreen> {
           ? ColorApp.whiteColor
           : ColorApp.itemsDarkColor,
     );
-    var authProvider = Provider.of<AuthUserProvider>(context, listen: false);
 
     getTaskProvider
         .editTask(args.id, title.text, description.text,
-            authProvider.currentUser?.id ?? "", selectDate)
+        data!.id??"", selectDate)
         .then(
       (value) {
         Navigator.pop(context);
         getTaskProvider
-            .getTaskFromFireStore(authProvider.currentUser?.id ?? "");
+            .getTaskFromFireStore(data!.id??"");
         DailogUtils.hideLoading(context);
       DailogUtils.showMessage(
         color: themeProvider.theme == ThemeMode.light
