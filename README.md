@@ -1,6 +1,6 @@
 # To-DO-APP
 
-This *Task Management App* is a Flutter application designed to help users efficiently manage their tasks. The app allows users to add, edit, delete, and complete tasks with a clean and user-friendly interface.
+This *To-DO-APP* is a Flutter application designed to help users efficiently manage their tasks. The app allows users to add, edit, delete, and complete tasks with a clean and user-friendly interface.
 
 ## Features
 
@@ -35,16 +35,17 @@ Before you begin, ensure you have the following installed:
 1. *Clone the Repository*
 
    bash
-   git clone https://github.com/yourusername/task-management-app.git
+   git clone https://github.com/oso020/TO-DO-APP.git
+
    
 
-2. *Navigate to the Project Directory*
+3. *Navigate to the Project Directory*
 
    bash
    cd task-management-app
    
 
-3. *Install Dependencies*
+4. *Install Dependencies*
 
    Run the following command to fetch the required packages:
 
@@ -52,14 +53,14 @@ Before you begin, ensure you have the following installed:
    flutter pub get
    
 
-4. *Firebase Setup*
+5. *Firebase Setup*
 
    - Set up Firebase for your project:
      - Create a new Firebase project at [Firebase Console](https://console.firebase.google.com/).
      - Follow the instructions to add both Android and iOS Firebase configurations,(or simply choose flutter configuration).
      - Replace google-services.json (for Android) and GoogleService-Info.plist (for iOS) in the respective directories, or just use flutter integration provided by Firebase.
 
-5. *Run the Application*
+6. *Run the Application*
 
    To run the application on your preferred device, use:
 
