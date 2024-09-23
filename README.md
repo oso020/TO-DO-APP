@@ -74,17 +74,17 @@ Before you begin, ensure you have the following installed:
 ### Light Mode
 
 <p align="center">
-  <img src="https://github.com/NaderEmad9/task_management/raw/main/assets/screenshots/light/signup.png" alt="Sign Up" width="220" style="margin: 10px;"/>
-  <img src="https://github.com/NaderEmad9/task_management/raw/main/assets/screenshots/light/signin.png" alt="Sign In" width="220" style="margin: 10px;"/>
-  <img src="https://github.com/NaderEmad9/task_management/raw/main/assets/screenshots/light/task.png" alt="Task" width="220" style="margin: 10px;"/>
+  <img src="https://github.com/oso020/TO-DO-APP/blob/development/sceenshots/register.png" alt="Sign Up" width="220" style="margin: 10px;"/>
+  <img src="https://github.com/oso020/TO-DO-APP/blob/development/sceenshots/login.png" alt="Sign In" width="220" style="margin: 10px;"/>
+  <img src="https://github.com/oso020/TO-DO-APP/blob/development/sceenshots/home.png" alt="Task" width="220" style="margin: 10px;"/>
 </p>
 <p align="center">
-  <img src="https://github.com/NaderEmad9/task_management/raw/main/assets/screenshots/light/task_add.png" alt="Task Add" width="220" style="margin: 10px;"/>
-  <img src="https://github.com/NaderEmad9/task_management/raw/main/assets/screenshots/light/task_list_view.png" alt="Task List View" width="220" style="margin: 10px;"/>
-  <img src="https://github.com/NaderEmad9/task_management/raw/main/assets/screenshots/light/task_control.png" alt="Task Control" width="220" style="margin: 10px;"/>
+  <img src="https://github.com/oso020/TO-DO-APP/blob/development/sceenshots/added_task.png" alt="Task Add" width="220" style="margin: 10px;"/>
+  <img src="https://github.com/oso020/TO-DO-APP/blob/development/sceenshots/delete_feature_dark.png" alt="Task Delete" width="220" style="margin: 10px;"/>
+  <img src="https://github.com/oso020/TO-DO-APP/blob/development/sceenshots/done_feature.png" alt="Done Task" width="220" style="margin: 10px;"/>
 </p>
 <p align="center">
-  <img src="https://github.com/NaderEmad9/task_management/raw/main/assets/screenshots/light/settings.png" alt="Settings" width="220" style="margin: 10px;"/>
+  <img src="https://github.com/oso020/TO-DO-APP/blob/development/sceenshots/settings.png" alt="Settings" width="220" style="margin: 10px;"/>
 </p>
 
 ### Dark Mode
