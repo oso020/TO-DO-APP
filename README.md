@@ -77,7 +77,6 @@ Before you begin, ensure you have the following installed:
   <img src="https://github.com/oso020/TO-DO-APP/blob/development/sceenshots/register.png" alt="Sign Up" width="220" style="margin: 10px;"/>
   <img src="https://github.com/oso020/TO-DO-APP/blob/development/sceenshots/login.png" alt="Sign In" width="220" style="margin: 10px;"/>
      <img src="https://github.com/oso020/TO-DO-APP/blob/development/sceenshots/valIdator.png" alt="Validator dark" width="220" style="margin: 10px;"/>
-
   <img src="https://github.com/oso020/TO-DO-APP/blob/development/sceenshots/home.png" alt="Task" width="220" style="margin: 10px;"/>
 </p>
 
@@ -100,21 +99,26 @@ Before you begin, ensure you have the following installed:
 <p align="center">
   <img src="https://github.com/oso020/TO-DO-APP/blob/development/sceenshots/login_dark.png" alt="Sign Up" width="220" style="margin: 10px;"/>
   <img src="https://github.com/oso020/TO-DO-APP/blob/development/sceenshots/register_dark.png" alt="Sign In" width="220" style="margin: 10px;"/>
+        <img src="https://github.com/oso020/TO-DO-APP/blob/development/sceenshots/validator_dark.png" alt="Validator dark" width="220" style="margin: 10px;"/>
+
   <img src="https://github.com/oso020/TO-DO-APP/blob/development/sceenshots/home_dark.png" alt="Task" width="220" style="margin: 10px;"/>
+
 </p>
 <p align="center">
-  <img src="https://github.com/oso020/TO-DO-APP/blob/development/sceenshots/validator_dark.png" alt="Validator dark" width="220" style="margin: 10px;"/>
-  <img src="https://github.com/oso020/TO-DO-APP/blob/development/sceenshots/dialog_dark.png" alt="Dialog Dark" width="220" style="margin: 10px;"/>
 </p>
 <p align="center">
   <img src="https://github.com/oso020/TO-DO-APP/blob/development/sceenshots/added_task%20dark.png" alt="Task Add" width="220" style="margin: 10px;"/>
   <img src="https://github.com/oso020/TO-DO-APP/blob/development/sceenshots/delete_feature_dark.png" alt="Task Delete" width="220" style="margin: 10px;"/>
   <img src="https://github.com/oso020/TO-DO-APP/blob/development/sceenshots/done_feature_dark.png" alt="Done Task" width="220" style="margin: 10px;"/>
-  <img src="https://github.com/oso020/TO-DO-APP/blob/development/sceenshots/edit_task_dark.png" alt="Edit Task" width="220" style="margin: 10px;"/>
-     <img src="https://github.com/oso020/TO-DO-APP/blob/development/sceenshots/settings_dark.png" alt="Settings" width="220" style="margin: 10px;"/>
+    <img src="https://github.com/oso020/TO-DO-APP/blob/development/sceenshots/dialog_dark.png" alt="Dialog Dark" width="220" style="margin: 10px;"/>
+
+     
 
 </p>
 <p align="center">
+     <img src="https://github.com/oso020/TO-DO-APP/blob/development/sceenshots/edit_task_dark.png" alt="Edit Task" width="220" style="margin: 10px;"/>
+
+   <img src="https://github.com/oso020/TO-DO-APP/blob/development/sceenshots/settings_dark.png" alt="Settings" width="220" style="margin: 10px;"/>
 </p>
 
 ## Contributions
