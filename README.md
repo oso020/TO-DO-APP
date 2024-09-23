@@ -80,8 +80,8 @@ Before you begin, ensure you have the following installed:
 </p>
 
 <p align="center">
-     <img src="https://github.com/oso020/TO-DO-APP/blob/development/sceenshots/home.png" alt="Task" width="220" style="margin: 10px;"/>
-  <img src="https://github.com/oso020/TO-DO-APP/blob/development/sceenshots/added_task.png" alt="Task Add" width="220" style="margin: 10px;"/>
+     <img src="https://github.com/oso020/TO-DO-APP/blob/development/sceenshots/added_task.png" alt="Task" width="220" style="margin: 10px;"/>
+  <img src="https://github.com/oso020/TO-DO-APP/blob/development/sceenshots/home.png" alt="Task Add" width="220" style="margin: 10px;"/>
   <img src="https://github.com/oso020/TO-DO-APP/blob/development/sceenshots/delete_feature.png" alt="Task Delete" width="220" style="margin: 10px;"/>
 
 
