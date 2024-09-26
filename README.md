@@ -6,7 +6,6 @@ This *To-DO-APP* is a Flutter application designed to help users efficiently man
 
 - *Add Tasks*: Create new tasks with titles, descriptions, and due dates.
 - *Edit Tasks*: Modify existing tasks for corrections or updates.
-- *Task Completion*: Mark tasks as completed with a simple swipe action.
 - *Delete Tasks*: Remove tasks from the list by swiping.
 - *Responsive UI*: Ensures that the layout adapts to different screen sizes and orientations.
 - *Dark Mode*: Support for both light and dark themes based on user preferences.
