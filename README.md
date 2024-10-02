@@ -96,8 +96,10 @@ Before you begin, ensure you have the following installed:
   <img src="https://github.com/oso020/TO-DO-APP/blob/development/sceenshots/done_feature.png" alt="Done Task" width="220" style="margin: 10px;"/>
     <img src="https://github.com/oso020/TO-DO-APP/blob/development/sceenshots/dialog.png" alt="Dialog Dark" width="220" style="margin: 10px;"/>
 <p align="center">
-       <img src="https://github.com/oso020/TO-DO-APP/blob/development/sceenshots/edit_task.png" alt="Edit Task" width="220" style="margin: 10px;"/></p>
-     <img src="https://github.com/oso020/TO-DO-APP/blob/development/sceenshots/settings.png" alt="Settings" width="220" style="margin: 10px;"/>
+       <img src="https://github.com/oso020/TO-DO-APP/blob/development/sceenshots/edit_task.png" alt="Edit Task" width="220" style="margin: 10px;"/
+               <img src="https://github.com/oso020/TO-DO-APP/blob/development/sceenshots/settings.png" alt="Settings" width="220" style="margin: 10px;"/>
+
+   ></p>
 </p>
 
 ### Dark Mode
